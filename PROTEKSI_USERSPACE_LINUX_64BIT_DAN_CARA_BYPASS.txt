@@ -1,0 +1,42 @@
+PROTEKSI PADA TEKNIK EKSPLOITASI USERSPACE DI LINUX 64 BIT DAN CARA BYPASS
+
+1. ASLR
+- Information Leak (leak via format string)
+- Information Leak (leak via out-of-bounds read)
+- brute force (hanya efektif jika programnya daemon dengan fork)
+- ret2plt 
+
+2. PIE (Position Independent Executable)
+- Partial Overwrite
+- Leaking Code Address
+- vsyscall/vDSO attacks (kadang kadang)
+
+3. DEP / NX (Data Execution Prevention / No-Execute)
+- ROP 
+- ret2libc
+- JOP
+- SROP
+
+4. Stack Canaries (Stack Smashing Protector - SSP)
+- Canary Leaking
+- Arbitrary Write
+- Brute Forcing (hanya bisa jika programnya daemon dengan fork)
+- Master Canary Overwrite (berlaku pada daemon dengan multithreading) -> penyerang menimpa nilai master canary yang disimpan di TLS (Thread Local Storage)
+
+5. RELRO (Relocation Read-Only)
+FULL RELRO :
+- Hooking function pointers lain
+PARTIAL RELRO :
+- GOT Overwrite
+
+6. CET (Control-flow Enforcement Technology)
+- Data-only attacks
+- Non-control-data attacks
+
+7. Seccomp
+- Cari syscal yang ga kena filter
+
+8. Fortify Source
+- integer overflow
+
+
