@@ -1,0 +1,44 @@
+PROTEKSI PADA LINUX KERNEL 6 - 64 bit dan cara bypass
+
+A. KASLR
+teknik bypass :
+1. information leak (/proc/kallsyms)
+2. information leak (dmesg)
+3. information leak (out-of-bounds read pada struktur data kernel)
+4. information leak (pointer leak)	
+5. side channel attacks
+
+B. SMEP
+teknik bypass:
+1. Kernel ROP Chain
+2. CR4 Flipping
+3. JOP
+
+C. SMAP
+teknik bypass:
+1. EFLAGS AC Bit,STAC/CLAC Gadgets
+2. Data Mirroring
+3. copy_from_user
+
+D. KPTI
+teknik bypass:
+1. KPTI Trampoline jumping (Ret2usr via KPTI Trampolines (Signal Handling))
+2. KASLR Leak & Entry Trampolines
+3. Exploiting CPU Side-Channels Baru
+4. Melakukan Modifikasi pada CR3 
+
+E. Control Flow Integrity
+teknik bypass:
+1. Non-protected Indirect Calls
+2. Data-Only Attacks
+3. JOP (Jump Oriented)
+
+F. Hardening Allocator (SLUB Stick & KFENCE)
+teknik bypass:
+1. heap grooming  untuk kfence
+2. Cross-cache Attacks untuk slub stick
+
+G. STACK CANARY (Kernel Stack Protector)
+teknik bypass:
+1.Arbitrary Read untuk mencuri nilai canary
+2.Brute force byte by byte
