@@ -3,7 +3,7 @@ PROTEKSI PADA TEKNIK EKSPLOITASI USERSPACE DI LINUX 64 BIT DAN CARA BYPASS
 1. ASLR
 - Information Leak (leak via format string)
 - Information Leak (leak via out-of-bounds read)
-- brute force (hanya efektif jika programnya daemon dengan fork)
+- byte by byte brute force ( hanya berlaku pada daemon yang menggunakan fork() dan tanpa systemd limit rate)
 - ret2plt (tidak berlaku jika full relro)
 - ret2csu (tidak berlaku pada kernel setelah glibc 2.34 -> agustus 2021)
 
@@ -11,7 +11,7 @@ PROTEKSI PADA TEKNIK EKSPLOITASI USERSPACE DI LINUX 64 BIT DAN CARA BYPASS
 - Partial Overwrite
 - Leaking Code Address
 - vsyscall/vDSO attacks (kadang kadang)
-- byte by byte brute force ( hanya berlaku pada daemon yang menggunakan fork() )
+- byte by byte brute force ( hanya berlaku pada daemon yang menggunakan fork() dan tanpa systemd limit rate)
 
 3. DEP / NX (Data Execution Prevention / No-Execute)
 - ROP 
@@ -22,7 +22,7 @@ PROTEKSI PADA TEKNIK EKSPLOITASI USERSPACE DI LINUX 64 BIT DAN CARA BYPASS
 4. Stack Canaries (Stack Smashing Protector - SSP)
 - Canary Leaking
 - Arbitrary Write
-- Brute Forcing (hanya bisa jika programnya daemon dengan fork)
+- byte by byte brute force ( hanya berlaku pada daemon yang menggunakan fork() dan tanpa systemd limit rate)
 - Master Canary Overwrite (berlaku pada daemon dengan multithreading) -> penyerang menimpa nilai master canary yang disimpan di TLS (Thread Local Storage)
 
 5. RELRO (Relocation Read-Only)
