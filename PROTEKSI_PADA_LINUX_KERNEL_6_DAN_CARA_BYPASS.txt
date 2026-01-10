@@ -2,8 +2,8 @@ PROTEKSI PADA LINUX KERNEL 6 - 64 bit dan cara bypass
 
 A. KASLR
 teknik bypass :
-1. information leak (/proc/kallsyms)
-2. information leak (dmesg)
+1. information leak (/proc/kallsyms) -> sering gagal
+2. information leak (dmesg)  -> sering gagal
 3. information leak (out-of-bounds read pada struktur data kernel)
 4. information leak (pointer leak)	
 5. side channel attacks
