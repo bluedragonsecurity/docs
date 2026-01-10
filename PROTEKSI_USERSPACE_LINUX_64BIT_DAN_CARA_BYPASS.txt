@@ -5,7 +5,7 @@ PROTEKSI PADA TEKNIK EKSPLOITASI USERSPACE DI LINUX 64 BIT DAN CARA BYPASS
 - Information Leak (leak via out-of-bounds read)
 - byte by byte brute force ( hanya berlaku pada daemon yang menggunakan fork() dan tanpa systemd limit rate)
 - ret2plt (tidak berlaku jika full relro)
-- ret2csu (tidak berlaku pada kernel setelah glibc 2.34 -> agustus 2021)
+- ret2csu (tidak berlaku pada kernel setelah glibc 2.34 (kernel 5.x) -> agustus 2021)
 
 2. PIE (Position Independent Executable)
 - Partial Overwrite
