@@ -1,0 +1,8 @@
+1. House of Apple
+manipulasi pointer di dalam struktur _IO_FILE ( _wide_data) untuk mengarahkan eksekusi ke fungsi virtual yang dikontrol penyerang saat fungsi I/O seperti fopen, fclose, atau printf dipanggil.Mengambil alih Control Flow tanpa harus memicu malloc atau free secara langsung.
+2. House of Tangerine
+mengubah ukuran Top Chunk menjadi nilai yang sangat kecil. Ketika ada permintaan alokasi yang lebih besar dari ukuran tersebut, glibc akan memicu sysmalloc.penyerang dapat memaksa Top Chunk lama masuk ke dalam unsorted bin, yang kemudian memungkinkan terjadinya overlapping chunks atau kebocoran alamat memori
+3. Tcache Poisoning
+Menulis ulang pointer next (forward pointer) pada chunk yang berada di dalam tcache bin yang sudah di-free.Mengembalikan alamat memori arbitrer (seperti __environ atau alamat fungsi di stack) pada panggilan malloc berikutnya
+4. Tcache Stashing (Unlink Attack)
+Memanfaatkan mekanisme glibc di mana jika tcache kosong namun terdapat chunk di Small Bin dengan ukuran yang sama, glibc akan memindahkan ("stashing") sisa chunk dari Small Bin ke Tcache.memicu kondisi di mana mereka bisa memanipulasi pointer bk (backward) pada Small Bin. Saat proses stashing terjadi, glibc akan melakukan operasi unlink yang menuliskan alamat tertentu ke lokasi yang dikontrol penyerang.
