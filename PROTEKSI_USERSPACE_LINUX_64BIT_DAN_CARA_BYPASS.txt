@@ -23,7 +23,7 @@ PROTEKSI PADA TEKNIK EKSPLOITASI USERSPACE DI LINUX 64 BIT DAN CARA BYPASS
 4. Stack Canaries (Stack Smashing Protector - SSP)
 - Canary Leaking
 - Arbitrary Write
-- byte by byte brute force ( hanya berlaku pada daemon yang menggunakan fork() dan tanpa systemd limit rate)
+- byte by byte brute force ( hanya berlaku pada daemon yang menggunakan fork(),tanpa systemd limit rate)
 - Master Canary Overwrite (berlaku pada daemon dengan multithreading) -> penyerang menimpa nilai master canary yang disimpan di TLS (Thread Local Storage)
 
 5. RELRO (Relocation Read-Only)
