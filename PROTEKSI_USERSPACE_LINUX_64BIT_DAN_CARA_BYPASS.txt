@@ -11,7 +11,7 @@ PROTEKSI PADA TEKNIK EKSPLOITASI USERSPACE DI LINUX 64 BIT DAN CARA BYPASS
 - Partial Overwrite
 - Leaking Code Address (perlu bug tambahan,misal format string)
 - vDSO attacks (hanya jika ada information leak)
-- byte by byte brute force ( hanya berlaku pada daemon yang menggunakan fork() dan tanpa systemd limit rate)
+- byte by byte brute force ( hanya berlaku pada daemon yang menggunakan fork(), ada handler sigchild, tanpa systemd limit rate)
 - side channel attack (butuh akses ke sistem)
 
 3. DEP / NX (Data Execution Prevention / No-Execute)
