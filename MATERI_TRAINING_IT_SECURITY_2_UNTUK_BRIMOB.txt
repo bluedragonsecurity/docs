@@ -1,0 +1,139 @@
+MATERI TRAINING IT SECURITY 2 UNTUK BRIMOB
+
+by : wisdom (Antonius)
+
+PART 1. Teknik Exploitasi Web Tingkat Lanjut
+
+1. Insecure Deserialization
+2. SSRF
+3. XXE Injection
+4. SSTI
+5. HTTP Request Smuggling
+6. mssql injection
+7. Advanced mysql injection
+
+PART 2. Teknik hacking lanjutan
+1. Penggunaan tool tool di kali linux (lanjutan)
+2. Chroot Escape
+3. Docker Escape
+
+PART 3. Advanced network attack
+1. OSI 7 layer model
+2. MITM & dns cache poisoning pada subnet
+3. DNS amplification attack
+4. SNMP attack
+5. BGP attack
+6. MPLS attack
+7. Vlan hopping untuk lateral movement
+
+PART 4. Teknik exploitasi userspace di linux 64 bit
+1. Sekilas tentang vulnerability untuk exploitasi userspace di linux 64 bit		
+2. Dasar dasar penggunaan tool untuk alat bantu eksploitasi userspace			
+3. Dasar x64 remote stack overflow exploitation						
+4. Teknik bypass proteksi memory corruption exploitation di linux 64 bit		
+	1. Teknik untuk bypass ASLR di linux 64 bit
+		1. Teknik per-page brute force						
+		2. Memanfaatkan information leak via format string			
+		3. Teknik bypass aslr dengan ret2plt					
+	2. Teknik untuk bypass PIE di linux 64 bit
+		1. Bypass pie dengan  Information leak via format string
+		2. Bypass pie dengan  Byte by byte brute force
+	3. Teknik untuk bypass DEP/NX di linux 64 bit
+		1. Teknik bypass nx dengan ROP
+		2. Teknik bypass nx dengan JOP
+		3. Teknik bypass nx dengan SROP
+	4. Teknik untuk bypass Stack Canaries di linux 64 bit
+		1. Bypass canary dengan information leak via format string
+		2. Bypass canary dengan byte by byte brute force
+	5. Teknik untuk bypass RELRO di linux 64 bit
+		1. Bypass full relro dengan hooking function pointer di memory lain
+		2. Bypass partial relro dengan got overwrite
+	6. Teknik untuk bypass Fortify Source di linux 64 bit
+		1.  Bypass fortify source dengan integer overflow / underflow
+		2. Bypass fortify source melalui fungsi yang tidak tercover
+
+5. Off by one exploitation
+6. Integer overflow exploitation
+7. Signedness bug exploitation
+8. Format string exploitation
+9. Race condition
+10. Pengenalan heap pada linux 64 bit
+11. Heap overflow exploitation 
+	1. Teknik House of Apple 2
+	2. Teknik House of Water Modern
+	3. Teknik House of Tangerine
+	4. Teknik Tcache Poisoning
+	5. Teknik Tcache Stashing
+	
+12. Use after free exploitation
+	1. Tcache Stashing Unlink Attack
+	2. House of Apple (Family)
+	3. House of Emma
+13. Double free exploitation
+	1. Tcache Per-Thread Cache Protection
+	2. Safe Linking Bypass
+	3. House of Botcake (Tcache + Unsorted Bin)
+14. Advanced remote stack overflow exploitation
+15. Contoh real life userspace exploitation
+
+PART 5. Teknik pembuatan rootkit pada linux kernel 6 - 64 bit & Freebsd
+1. Sekilas tentang rootkit pada linux kernel 6 - 64 bit
+2. Pembuatan linux userland rootkit
+3. Dasar pembuatan linux lkm rootkit 
+4. Pembuatan linux lkm rootkit berbasis ftrace
+
+PART 6. Teknik exploitasi kernelspace di linux 64 bit
+1. Sekilas tentang teknik teknik exploitasi kernelspace di linux 64 bit
+2. Teknik debugging untuk memulai linux kernel exploitation
+3. Proteksi eksploitasi pada linux kernel 6 - 64 bit dan cara bypass proteksi 
+	1. Teknik untuk bypass KASLR di linux kernel 6 - 64 bit
+		1. Bypass KASLR dengan information leak (pointer leak)	
+		2. Bypass KASLR dengan side channel attacks
+	2. Teknik untuk bypass SMEP di linux kernel 6 - 64 bit
+		1. Bypass SMEP dengan Kernel ROP Chain
+		2. Bypass SMEP dengan CR4 Flipping
+	3. Teknik untuk bypass SMAP di linux kernel 6 - 64 bit
+		1. Bypass SMAP dengan EFLAGS AC Bit,STAC/CLAC Gadgets
+		2. Bypass SMAP dengan copy_from_user
+	4. Teknik untuk bypass KPTI di linux kernel 6 - 64 bit
+		1. Bypass KPTI dengan KPTI Trampoline jumping
+		2. Bypass KPTI dengan Melakukan Modifikasi pada CR3 
+	5. Teknik untuk bypass Control Flow Integrity di linux kernel 6 - 64 bit
+		1. Bypass CFI dengan Data-Only Attacks
+		2. Bypass CFI dengan JOP (Jump Oriented)
+	6. Teknik untuk bypass Hardening Allocator di linux kernel 6 - 64 bit
+		1. Bypass kfence dengan	heap grooming
+		2. Bypass slub stick dengan Cross-cache Attacks
+	7.  Teknik untuk bypass Stack Canary di linux kernel 6 - 64 bit
+		1. Bypass stack canary dengan Arbitrary Read untuk mencuri nilai canary
+		2. Bypass stack canary dengan Brute force byte by byte
+	
+4. Race condition exploitation
+5. Kernel stack overflow exploitation
+6. Kernel heap overflow exploitation
+7. Use after free exploitation 
+8. Out of bounds read write
+9. Dirty bond & dirty pagetable
+10. IO_uring exploitation
+11. Integer overflow exploitation & Integer underflow exploitation
+12. Reference counting issues
+13. Contoh real life linux kernel exploitation
+
+PART 7. Vulnerability Research (Fuzzing & Source Code Analysis)
+1. Web application fuzzing (burp suite, nuclei, owasp zap)
+2. Fuzzing aplikasi di linux (AFL, LibFuzzer, Radamsa)
+3. Fuzzing pada linux kernel (Syzkaller, Snowplow)
+4. Web source code vulnerability finder berbasis python dengan google-generativeai & DeepCode
+5. Linux c & c++ source code vulnerability finder berbasis python dengan google-generativeai & DeepCode
+
+
+
+
+
+
+
+
+
+
+
+
