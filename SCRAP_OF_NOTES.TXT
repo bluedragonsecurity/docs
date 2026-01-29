@@ -101,6 +101,11 @@ teknik bypass:
 1.Arbitrary Read untuk mencuri nilai canary
 2.Brute force byte by byte
 
+catatan : 
+- Control Flow Integrity (CFI)	Memastikan alur eksekusi program sesuai dengan grafik fungsi yang seharusnya.	Indirect Branch Hijacking (mencegah lompatan eksekusi ke lokasi ilegal).
+- FORTIFY_SOURCE	Mendeteksi buffer overflow pada fungsi string/memori umum (seperti memcpy).	Penyalahgunaan fungsi manipulasi memori.
+- KMALLOC_REDZONE	Menambahkan area "terlarang" di sekitar alokasi memori di heap.	Heap Overflow.
+- Vmap-stack (Virtually Mapped Stacks) : CONFIG_VMAP_STACK, stack dialokasikan di memori virtual dengan Guard Pages (halaman memori yang tidak dipetakan) di antara setiap stack.
 
 ______________________________________________________
 
