@@ -1,0 +1,175 @@
+0xFFFFFFFFFFFFFFFF (16 Exabytes - batas teoritis)
+┌──────────────────────────────────────┐
+│         Canonical Hole               │ <<< Area tidak valid
+├──────────────────────────────────────┤ 0x00007FFFFFFFFFFF (128 TB)
+│                                      │
+│         USER SPACE                   │
+│    (0x0000000000000000 - 0x00007FFFFFFFFFFF) │
+│                                      │
+│    ┌──────────────────────────────┐  │
+│    │         Stack                │  │ ← Tumbuh ke bawah
+│    │    (randomized)              │  │
+│    ├──────────────────────────────┤  │
+│    │                              │  │
+│    │            ↓                 │  │
+│    │                              │  │
+│    ├──────────────────────────────┤  │
+│    │         Memory Mapping       │  │ ← Libraries, mmap files
+│    │    (shared libraries,        │  │
+│    │     files mapped to memory)  │  │
+│    ├──────────────────────────────┤  │
+│    │            ↑                 │  │
+│    │            Heap              │  │ ← Tumbuh ke atas
+│    ├──────────────────────────────┤  │
+│    │         BSS Segment          │  │ ← Uninitialized data
+│    ├──────────────────────────────┤  │
+│    │         Data Segment         │  │ ← Initialized data
+│    ├──────────────────────────────┤  │
+│    │         Text Segment         │  │ ← Kode program (.text)
+│    └──────────────────────────────┘  │
+├──────────────────────────────────────┤ 0x0000000000000000
+│         Hole/Non-Canonical           │
+├──────────────────────────────────────┤ 0xFFFF800000000000
+│                                      │
+│         KERNEL SPACE                 │
+│(0xFFFF800000000000 - 0xFFFFFFFFFFFFFFFF) │
+│                                      │
+│    ┌──────────────────────────────┐  │
+│    │    vmalloc/ioremap space     │  │ ← Memory virtual dinamis
+│    ├──────────────────────────────┤  │
+│    │     Kernel Modules           │  │ ← Kode kernel module
+│    ├──────────────────────────────┤  │
+│    │      Kernel Stack            │  │ ← Stack per thread kernel
+│    ├──────────────────────────────┤  │
+│    │   Kernel Data (.bss, .data)  │  │ ← Data kernel
+│    ├──────────────────────────────┤  │
+│    │   Kernel Text (.text)        │  │ ← Kode kernel
+│    ├──────────────────────────────┤  │
+│    │   Physical Memory Mapping    │  │ ← Direct map RAM fisik
+│    │  (0xFFFF880000000000)        │  │
+│    └──────────────────────────────┘  │
+└──────────────────────────────────────┘
+0xFFFFFFFFFFFFFFFF
+
+
+
+________________________________________________________________
+
+
+PROTEKSI PADA LINUX KERNEL 6 - 64 bit dan cara bypass
+
+A. KASLR
+teknik bypass :
+1. information leak (/proc/kallsyms) -> sering gagal
+2. information leak (dmesg)  -> sering gagal
+3. information leak (out-of-bounds read pada struktur data kernel)
+4. information leak (pointer leak)	
+5. side channel attacks
+
+B. SMEP
+teknik bypass:
+1. Kernel ROP Chain
+2. CR4 Flipping
+3. JOP
+
+C. SMAP
+teknik bypass:
+1. EFLAGS AC Bit,STAC/CLAC Gadgets
+2. Data Mirroring
+3. copy_from_user
+
+D. KPTI
+teknik bypass:
+1. KPTI Trampoline jumping (Ret2usr via KPTI Trampolines (Signal Handling))
+2. KASLR Leak & Entry Trampolines
+3. Exploiting CPU Side-Channels Baru
+4. Melakukan Modifikasi pada CR3 
+
+E. Control Flow Integrity
+teknik bypass:
+1. Non-protected Indirect Calls
+2. Data-Only Attacks
+3. JOP (Jump Oriented)
+
+F. Hardening Allocator (SLUB Stick & KFENCE)
+teknik bypass:
+1. heap grooming  untuk kfence
+2. Cross-cache Attacks untuk slub stick
+
+G. STACK CANARY (Kernel Stack Protector)
+teknik bypass:
+1.Arbitrary Read untuk mencuri nilai canary
+2.Brute force byte by byte
+
+
+______________________________________________________
+
+PROTEKSI PADA TEKNIK EKSPLOITASI USERSPACE DI LINUX 64 BIT DAN CARA BYPASS
+
+1. ASLR
+- Information Leak (leak via format string)
+- Information Leak (leak via out-of-bounds read)
+- Base libc per-page brute force ( hanya berlaku pada daemon yang menggunakan fork(),tanpa systemd limit rate dan memiliki handler sigchild)
+- ret2plt (tidak berlaku jika full relro)
+- ret2csu (tidak berlaku pada kernel setelah glibc 2.34 (kernel 5.x) -> agustus 2021)
+
+2. PIE (Position Independent Executable)
+- Partial Overwrite
+- Leaking Code Address (perlu bug tambahan,misal format string)
+- vDSO attacks (hanya jika ada information leak)
+- byte by byte brute force ( hanya berlaku pada daemon yang menggunakan fork(), ada handler sigchild, tanpa systemd limit rate)
+- side channel attack (butuh akses ke sistem)
+
+3. DEP / NX (Data Execution Prevention / No-Execute)
+- ROP 
+- ret2libc
+- JOP
+- SROP
+
+4. Stack Canaries (Stack Smashing Protector - SSP)
+- Canary Leaking
+- Arbitrary Write
+- byte by byte brute force ( hanya berlaku pada daemon yang menggunakan fork(),tanpa systemd limit rate)
+- Master Canary Overwrite (berlaku pada daemon dengan multithreading) -> penyerang menimpa nilai master canary yang disimpan di TLS (Thread Local Storage)
+
+5. RELRO (Relocation Read-Only)
+FULL RELRO :
+- Hooking function pointers lain
+PARTIAL RELRO :
+- GOT Overwrite
+
+6. CET (Control-flow Enforcement Technology)
+- Data-only attacks
+- Non-control-data attacks
+
+7. Seccomp
+- Cari syscal yang ga kena filter
+
+8. Fortify Source
+- integer overflow
+
+
+_________________________________________________________________________
+
+Teknik Exploitasi Userspace Heap di Linux
+
+1. House of Apple
+manipulasi pointer di dalam struktur _IO_FILE ( _wide_data) untuk mengarahkan eksekusi ke fungsi virtual yang dikontrol penyerang saat fungsi I/O seperti fopen, fclose, atau printf dipanggil.Mengambil alih Control Flow tanpa harus memicu malloc atau free secara langsung.
+2. House of Tangerine
+mengubah ukuran Top Chunk menjadi nilai yang sangat kecil. Ketika ada permintaan alokasi yang lebih besar dari ukuran tersebut, glibc akan memicu sysmalloc.penyerang dapat memaksa Top Chunk lama masuk ke dalam unsorted bin, yang kemudian memungkinkan terjadinya overlapping chunks atau kebocoran alamat memori
+3. Tcache Poisoning
+Menulis ulang pointer next (forward pointer) pada chunk yang berada di dalam tcache bin yang sudah di-free.Mengembalikan alamat memori arbitrer (seperti __environ atau alamat fungsi di stack) pada panggilan malloc berikutnya
+4. Tcache Stashing (Unlink Attack)
+Memanfaatkan mekanisme glibc di mana jika tcache kosong namun terdapat chunk di Small Bin dengan ukuran yang sama, glibc akan memindahkan ("stashing") sisa chunk dari Small Bin ke Tcache.memicu kondisi di mana mereka bisa memanipulasi pointer bk (backward) pada Small Bin. Saat proses stashing terjadi, glibc akan melakukan operasi unlink yang menuliskan alamat tertentu ke lokasi yang dikontrol penyerang.
+
+___________________________________________________________________________
+
+privilege escalation tool
+
+https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh 
+
+https://raw.githubusercontent.com/mzet-/linux-exploit-suggester/master/linux-exploit-suggester.sh
+
+
+
+
