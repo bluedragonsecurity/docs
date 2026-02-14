@@ -53,53 +53,109 @@
 
 
 
-________________________________________________________________
+=================================================================================================================================================
 
 
-PROTEKSI PADA LINUX KERNEL 6 - 64 bit dan cara bypass
+Proteksi eksploitasi pada linux kernel 6 - 64 bit dan cara bypass proteksi 
+	- Teknik untuk bypass KASLR di linux kernel 6 - 64 bit
+		1. Bypass KASLR dengan function pointer leak
+		2. Bypass KASLR dengan side channel attacks (EntryBleed)
+		3. Bypass KASLR dengan Prefetch Side-channel
+		4. Bypass KASLR dengan Branch Target Buffer (BTB) Collision (Spectre-v2 Variant)
+		5. Bypass KASLR via Keyring Subsystem
+	- Teknik untuk bypass SMEP di linux kernel 6 - 64 bit
+		1. Bypass SMEP dengan Full In-Kernel ROP Chain
+		2. Bypass SMEP dengan Dirty Pagetable (Dirty Pagedirectory)
+	- Teknik untuk bypass SMAP di linux kernel 6 - 64 bit
+		1. Bypass SMAP dengan Manipulasi EFLAGS (STAC Instruction)
+		2. Bypass SMAP dengan Kernel-to-Kernel Copy
+		3. Bypass SMAP dengan Cred Overwrite Attack
+	- Teknik untuk bypass KPTI di linux kernel 6 - 64 bit
+		1. Bypass KTPI dengan Microarchitectural Side-Channel Attacks (Retbleed)
+		2. Bypass KPTI dengan Exploiting Shadow Address Space (KPTI Trampoline Attack & EntryBleed)
+		3. Bypass KPTI dengan Melakukan Modifikasi pada CR3
+		4. Bypass KPTI dengan PCID (Process-Context Identifiers) Leakage 
+		5. Bypass KPTI dengan srop
+	- Teknik untuk bypass Control Flow Integrity di linux kernel 6 - 64 bit
+		1. Bypass CFI dengan Data-Only Attacks
+		2. Bypass FineIBT dengan "I-Call" Hash Collision
+		3. Bypass CFI dengan Indirect Call Target Rebranding
+		4. Bypass FineIBT dengan memanfaatkan instruksi ENDBR64
+	- Teknik untuk bypass Hardening Allocator di linux kernel 6 - 64 bit
+		1. Bypass kfence dengan	heap grooming
+		2. Bypass slub stick dengan Cross-cache Attacks
+		3. Bypass hardening allocator dengan Dirty Pagetable
+		4. Bypass hardening allocator dengan PUD Entry Overwrite
+		5. Bypass dengan Elastic Objects Attack
+		6. Bypass via SLAB_TYPESAFE_BY_RCU
+		7. Bypass dengan MSG_MSG Segmentation
+		8. Bypass via Cross-Thread Credential Spraying
+	-  Teknik untuk bypass Proteksi Stack di linux kernel 6 - 64 bit
+		1. Bypass stack canary dengan Arbitrary Read pada task_struct untuk membaca stack_canary milik proses yang sedang berjalan
+		2. Bypass shadow stack dengan jop 
+		3. Bypass shadow stack dengan cop
+		4. Bypass vmap_stack dengan stack pivot
+		5. Bypass shadow stack dengan Signal Context Manipulation
 
-A. KASLR
-teknik bypass :
-1. information leak (/proc/kallsyms) -> sering gagal
-2. information leak (dmesg)  -> sering gagal
-3. information leak (out-of-bounds read pada struktur data kernel)
-4. information leak (pointer leak)	
-5. side channel attacks
+=================================================================================================================================================
 
-B. SMEP
-teknik bypass:
-1. Kernel ROP Chain
-2. CR4 Flipping
-3. JOP
 
-C. SMAP
-teknik bypass:
-1. EFLAGS AC Bit,STAC/CLAC Gadgets
-2. Data Mirroring
-3. copy_from_user
+Linux kernel 6-64 bit exploitation strategy : 
+graph TD
+    A[Vulnerability: UAF/OOB] --> B{Bypass KASLR}
+    B -->|EntryBleed / Keyring Leak| C[Kernel Base Found]
+    C --> D[Heap Grooming: Cross-Thread Spray]
+    D --> E{Choose Path}
+    E -->|Data-Only| F[Cred Overwrite / Dirty Cred]
+    E -->|Code Execution| G[Dirty Pagetable / ROP]
+    G --> H[Bypass SMEP/SMAP/CFI]
+    F --> I[ROOT ACCESS]
+    H --> I
+    I --> J[Shadow Stack Cleanup: Signal Manipulation]
 
-D. KPTI
-teknik bypass:
-1. KPTI Trampoline jumping (Ret2usr via KPTI Trampolines (Signal Handling))
-2. KASLR Leak & Entry Trampolines
-3. Exploiting CPU Side-Channels Baru
-4. Melakukan Modifikasi pada CR3 
+=================================================================================================================================================
 
-E. Control Flow Integrity
-teknik bypass:
-1. Non-protected Indirect Calls
-2. Data-Only Attacks
-3. JOP (Jump Oriented)
 
-F. Hardening Allocator (SLUB Stick & KFENCE)
-teknik bypass:
-1. heap grooming  untuk kfence
-2. Cross-cache Attacks untuk slub stick
+Contoh Strategi Exploitasi Linux Kernel 6 :
 
-G. STACK CANARY (Kernel Stack Protector)
-teknik bypass:
-1.Arbitrary Read untuk mencuri nilai canary
-2.Brute force byte by byte
+Linux Kernel 6.x Exploit Chain Flow
+Tahap 1: Information Leak (Bypass KASLR)
+Sebelum melakukan apapun, penyerang harus tahu di mana posisi kernel di memori.
+
+Teknik Utama: EntryBleed atau Keyring Subsystem leak.
+
+Hasil: Mendapatkan $kernel_base. Tanpa ini, ROP chain atau manipulasi data akan "buta".
+
+Tahap 2: Heap Grooming & Spraying (Bypass Hardening Allocator)
+Menyiapkan "medan perang" di memori agar objek yang rentan berada di posisi yang menguntungkan.
+
+Teknik Utama: Cross-Thread Credential Spraying atau MSG_MSG Segmentation.
+
+Hasil: Mengontrol tata letak memori (deterministic heap layout).
+
+Tahap 3: Gaining Primitives (Arbitrary Read/Write)
+Memanfaatkan bug (misalnya UAF atau OOB) untuk mendapatkan kemampuan membaca atau menulis di mana saja.
+
+Teknik Utama: Elastic Objects Attack atau SLAB_TYPESAFE_BY_RCU.
+
+Hasil: Kemampuan untuk memodifikasi struktur data kernel.
+
+Tahap 4: Mitigasi Bypass (SMEP/SMAP/CFI)
+Saatnya menembus proteksi hardware dan kontrol alur.
+
+Opsi A (Data-Only Path): Melewati CFI sama sekali dengan teknik Dirty Cred atau Cred Overwrite. Ini yang paling populer karena tidak memicu proteksi eksekusi kode.
+
+Opsi B (Control Flow Path): Menggunakan Dirty Pagetable untuk mematikan bit NX/US pada PTE. Ini secara otomatis membypass SMEP dan SMAP karena halaman memori kini dianggap sebagai memori kernel yang sah dan eksekusi diperbolehkan.
+
+Tahap 5: Privilege Escalation & Cleanup
+Langkah terakhir untuk menjadi Root.
+
+Teknik Utama: Mencari struct task_struct milik proses saat ini, lalu menimpa struct cred (UID/GID) menjadi 0.
+
+Cleanup: Jika menggunakan Shadow Stack, lakukan Signal Context Manipulation agar saat syscall selesai, sistem tidak crash karena perbedaan state register.
+
+=================================================================================================================================================
+
 
 catatan : 
 - Control Flow Integrity (CFI)	Memastikan alur eksekusi program sesuai dengan grafik fungsi yang seharusnya.	Indirect Branch Hijacking (mencegah lompatan eksekusi ke lokasi ilegal).
@@ -107,7 +163,8 @@ catatan :
 - KMALLOC_REDZONE	Menambahkan area "terlarang" di sekitar alokasi memori di heap.	Heap Overflow.
 - Vmap-stack (Virtually Mapped Stacks) : CONFIG_VMAP_STACK, stack dialokasikan di memori virtual dengan Guard Pages (halaman memori yang tidak dipetakan) di antara setiap stack.
 
-______________________________________________________
+=================================================================================================================================================
+
 
 PROTEKSI PADA TEKNIK EKSPLOITASI USERSPACE DI LINUX 64 BIT DAN CARA BYPASS
 
@@ -154,7 +211,8 @@ PARTIAL RELRO :
 - integer overflow
 
 
-_________________________________________________________________________
+=================================================================================================================================================
+
 
 Teknik Exploitasi Userspace Heap di Linux
 
@@ -167,7 +225,8 @@ Menulis ulang pointer next (forward pointer) pada chunk yang berada di dalam tca
 4. Tcache Stashing (Unlink Attack)
 Memanfaatkan mekanisme glibc di mana jika tcache kosong namun terdapat chunk di Small Bin dengan ukuran yang sama, glibc akan memindahkan ("stashing") sisa chunk dari Small Bin ke Tcache.memicu kondisi di mana mereka bisa memanipulasi pointer bk (backward) pada Small Bin. Saat proses stashing terjadi, glibc akan melakukan operasi unlink yang menuliskan alamat tertentu ke lokasi yang dikontrol penyerang.
 
-___________________________________________________________________________
+=================================================================================================================================================
+
 
 privilege escalation tool
 
