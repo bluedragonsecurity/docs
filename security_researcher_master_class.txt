@@ -78,11 +78,12 @@ PART 4. Teknik exploitasi userspace di linux 64 bit
 4.14. Advanced userspace exploitation
 4.15. Contoh real life userspace exploitation
 
-PART 5. Teknik pembuatan rootkit pada linux kernel 6 - 64 bit 
+PART 5. Teknik pembuatan rootkit pada linux kernel 6 - 64 bit & freebsd
 5.1. Sekilas tentang rootkit pada linux kernel 6 - 64 bit
 5.2. Pembuatan linux userland rootkit
 5.3. Dasar pembuatan linux lkm rootkit 
 5.4. Pembuatan linux lkm rootkit berbasis ftrace
+5.5. Pembuatan Freebsd kld rootkit
 
 PART 6. Teknik exploitasi kernelspace di linux 64 bit
 6.1. Sekilas tentang teknik teknik exploitasi kernelspace di linux 64 bit	
@@ -143,10 +144,7 @@ PART 6. Teknik exploitasi kernelspace di linux 64 bit
 		4. Bypass vmap_stack dengan stack pivot
 		5. Bypass shadow stack dengan Signal Context Manipulation
 		
-6.5. Kernel stack overflow exploitation (advanced)
-6.6. Kernel heap overflow exploitation (advanced)
-6.7. Use-After-Free (UAF)
-6.8. Contoh real life linux kernel exploitation
+6.5. Contoh real life linux kernel exploitation
 
 PART 7. Vulnerability Research (Fuzzing & Source Code Analysis)
 7.1. Web application fuzzing (burp suite, nuclei, owasp zap)
