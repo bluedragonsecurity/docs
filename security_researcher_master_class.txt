@@ -33,7 +33,7 @@ PART 4. Teknik exploitasi userspace di linux 64 bit
 	4.4.1. Teknik untuk bypass ASLR di linux 64 bit
 		1. Teknik per-page brute force						
 		2. Memanfaatkan information leak via format string			
-		3. Teknik bypass aslr dengan ret2plt					
+		3. Teknik bypass aslr dengan ret2plt & information leak (format string)					
 	4.4.2. Teknik untuk bypass PIE di linux 64 bit
 		1. Bypass pie dengan  Information leak via format string			
 		2. Bypass pie dengan  Byte by byte brute force
