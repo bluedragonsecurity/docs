@@ -55,10 +55,10 @@ PART 4. Teknik exploitasi userspace di linux 64 bit
 4.7. Signedness bug exploitation
 	4.7.1. Signed to unsigned integer exploitation
 4.8. Format string exploitation
-	4.8.1. Dasar format string exploitation
-	4.8.2. Got Overwrite
-	4.8.3. Libc Overwrite
-	4.8.4. fini_array pointer overwrite
+	1. Dasar format string exploitation
+	2. Got Overwrite
+	3. Libc Overwrite
+	4. fini_array pointer overwrite
 4.9. Race condition
 4.10. Pengenalan heap pada linux 64 bit
 4.11. Heap overflow exploitation 
@@ -73,9 +73,9 @@ PART 4. Teknik exploitasi userspace di linux 64 bit
     9. FSOP via Angr-discovered paths (KyleBot's methodology)
     10. House of Fun (Modern Largebin Attack)
 4.12. Use after free exploitation
-	4.13.1. Tcache Stashing Unlink Attack
-	4.13.2. House of Apple (Family)
-	4.13.3. House of Emma
+	1. Tcache Stashing Unlink Attack
+	2. House of Apple (Family)
+	3. House of Emma
 4.13. Double free exploitation
 	1. Tcache Per-Thread Cache Protection
 	2. Safe Linking Bypass
@@ -157,3 +157,4 @@ PART 7. Vulnerability Research (Fuzzing & Source Code Analysis)
 7.3. Fuzzing pada linux kernel (Syzkaller, Snowplow)
 7.4. Web source code vulnerability finder dengan Snyk & google-generativeai
 7.5. Linux c & c++ source code vulnerability finder dengan Snyk & google-generativeai 
+7.6. Static Analysis pada Kernel untuk menemukan Logic Bug dengan Smatch (Statcic Analysis Tool)
