@@ -1,3 +1,31 @@
+Alamat Tertinggi (High)
+┌──────────────────────────────────────┐ 0xFFFFFFFFFFFFFFFF
+│                                      │
+│             KERNEL SPACE             │
+│                                      │
+│   ┌──────────────────────────────┐   │
+│   │    Kernel Text (.text)       │   │ ← Kode kernel utama (LKM Base)
+│   │ (~ 0xFFFFFFFF80000000)       │   │
+│   ├──────────────────────────────┤   │
+│   │  Kernel Data (.bss, .data)   │   │ ← Variabel global & statis
+│   ├──────────────────────────────┤   │
+│   │       Kernel Modules         │   │ ← Driver yang di-load (LKM)
+│   │ (~ 0xFFFFFFFFA0000000)       │   │
+│   ├──────────────────────────────┤   │
+│   │        Kernel Stack          │   │ ← Stack per thread/proses kernel
+│   ├──────────────────────────────┤   │
+│   │    vmalloc / ioremap space   │   │ ← Alokasi virtual dinamis
+│   │ (~ 0xFFFFC90000000000)       │   │
+│   ├──────────────────────────────┤   │
+│   │   Physical Memory Mapping    │   │ ← Direct map seluruh RAM fisik
+│   │ (0xFFFF888000000000)         │   │
+│   └──────────────────────────────┘   │
+│                                      │
+└──────────────────────────────────────┘ 0xFFFF800000000000
+Alamat Terendah (Low)
+
+
+
 0xFFFFFFFFFFFFFFFF (16 Exabytes - batas teoritis)
 ┌──────────────────────────────────────┐
 │         Canonical Hole               │ <<< Area tidak valid
