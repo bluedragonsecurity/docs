@@ -8,6 +8,7 @@ PART 1. Teknik Exploitasi Web Tingkat Lanjut
 1.4. SSTI
 1.5. mssql injection
 1.6. Advanced mysql injection
+1.7. Pentesting next.js
 
 PART 2. Teknik hacking lanjutan
 2.1. Penggunaan tool tool di kali linux (lanjutan)
