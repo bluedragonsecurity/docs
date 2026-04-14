@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Katalog Perangkat Intelijen Vol. II — Robotsoft / Blue Dragon Security</title>
+<style>
+  :root {
+    --navy: #0F3460;
+    --navy-light: #E8EEF7;
+    --navy-mid: #C0CDE8;
+    --green: #0A5C36;
+    --green-light: #E0F2EA;
+    --purple: #6B2D8B;
+    --purple-light: #F0E8F7;
+    --brown: #7B3F00;
+    --brown-light: #FAF0EB;
+    --teal: #0D7377;
+    --teal-light: #E0F4F4;
+    --dark: #1A1A2E;
+    --gray: #F7F9FA;
+    --border: #D0D8E8;
+    --text: #2C3E50;
+    --muted: #7F8C8D;
+    --warning: #E67E22;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #F0F4F8; color: var(--text); }
+
+  .cover {
+    background: linear-gradient(135deg, #0F3460 0%, #1A1A2E 50%, #0D7377 100%);
+    color: white; padding: 60px 48px 48px; position: relative; overflow: hidden;
+  }
+  .cover::before { content:''; position:absolute; top:-80px; right:-80px; width:350px; height:350px; border-radius:50%; background:rgba(15,52,96,0.4); z-index:0; }
+  .cover::after { content:''; position:absolute; bottom:-60px; left:10%; width:250px; height:250px; border-radius:50%; background:rgba(13,115,119,0.2); z-index:0; }
+  .cover-inner { position:relative; z-index:1; max-width:900px; }
+  .cover-vol { display:inline-block; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3); border-radius:20px; padding:4px 16px; font-size:12px; letter-spacing:2px; text-transform:uppercase; margin-bottom:16px; }
+  .cover-badge { display:inline-block; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); border-radius:6px; padding:3px 12px; font-size:11px; letter-spacing:1px; text-transform:uppercase; margin-left:8px; color: #FFD700; }
+  .cover h1 { font-size:40px; font-weight:800; line-height:1.15; margin-bottom:8px; }
+  .cover h1 span { color:#7EC8E3; }
+  .cover .subtitle { font-size:15px; opacity:0.75; margin-bottom:32px; }
+  .cover-meta { display:flex; gap:32px; flex-wrap:wrap; border-top:1px solid rgba(255,255,255,0.2); padding-top:24px; }
+  .cover-meta-item { display:flex; flex-direction:column; }
+  .cover-meta-item .label { font-size:11px; text-transform:uppercase; letter-spacing:1px; opacity:0.6; }
+  .cover-meta-item .value { font-size:18px; font-weight:700; color:#7EC8E3; }
+
+  .container { max-width:1100px; margin:0 auto; padding:0 24px 60px; }
+
+  .summary-section { background:white; border-radius:12px; margin:32px 0; box-shadow:0 2px 16px rgba(0,0,0,0.06); overflow:hidden; }
+  .summary-section h2 { background:var(--dark); color:white; padding:18px 28px; font-size:16px; letter-spacing:1px; text-transform:uppercase; }
+  .summary-table { width:100%; border-collapse:collapse; }
+  .summary-table th { background:var(--navy); color:white; padding:12px 16px; text-align:left; font-size:13px; text-transform:uppercase; }
+  .summary-table td { padding:11px 16px; border-bottom:1px solid var(--border); font-size:14px; }
+  .summary-table tr:nth-child(even) td { background:var(--gray); }
+  .summary-table tr:hover td { background:#E8EEF7; }
+
+  .category-banner {
+    border-radius:10px; padding:20px 32px; margin:40px 0 24px;
+    display:flex; align-items:center; gap:16px; color:white;
+  }
+  .cat-green  { background:linear-gradient(90deg,#0A5C36,#1A7A4C); }
+  .cat-purple { background:linear-gradient(90deg,#6B2D8B,#8B4DB0); }
+  .cat-brown  { background:linear-gradient(90deg,#7B3F00,#A05215); }
+  .cat-dark   { background:linear-gradient(90deg,#1A1A2E,#2E2E4E); }
+  .cat-teal   { background:linear-gradient(90deg,#0D7377,#14BDBC); }
+  .category-banner .cat-icon { font-size:28px; }
+  .category-banner h2 { font-size:20px; font-weight:700; }
+  .category-banner .cat-count { margin-left:auto; background:rgba(255,255,255,0.15); border-radius:20px; padding:4px 14px; font-size:12px; }
+
+  .device-card { background:white; border-radius:12px; margin-bottom:24px; box-shadow:0 2px 12px rgba(0,0,0,0.06); overflow:hidden; transition:all 0.2s; }
+  .device-card:hover { box-shadow:0 4px 24px rgba(15,52,96,0.15); transform:translateY(-1px); }
+
+  .device-card.green  { border-left:4px solid var(--green); }
+  .device-card.purple { border-left:4px solid var(--purple); }
+  .device-card.brown  { border-left:4px solid var(--brown); }
+  .device-card.dark   { border-left:4px solid #2E2E4E; }
+  .device-card.teal   { border-left:4px solid var(--teal); }
+
+  .device-header { padding:20px 28px 16px; border-bottom:1px solid var(--border); display:flex; align-items:flex-start; gap:16px; }
+  .device-id-green  { background:var(--green); }
+  .device-id-purple { background:var(--purple); }
+  .device-id-brown  { background:var(--brown); }
+  .device-id-dark   { background:#2E2E4E; }
+  .device-id-teal   { background:var(--teal); }
+  .device-id { color:white; border-radius:8px; padding:6px 12px; font-size:13px; font-weight:700; flex-shrink:0; }
+  .device-header h3 { font-size:20px; color:var(--dark); font-weight:700; }
+  .device-desc { padding:16px 28px; color:var(--text); line-height:1.7; font-size:14.5px; background:var(--gray); }
+  .specs-grid { display:grid; grid-template-columns:1fr 1fr; }
+  .spec-item { padding:14px 20px 14px 28px; border-bottom:1px solid var(--border); }
+  .spec-item:nth-child(odd) { border-right:1px solid var(--border); }
+  .spec-item.full-width { grid-column:1/-1; }
+  .spec-label { font-size:11px; text-transform:uppercase; letter-spacing:1px; font-weight:700; margin-bottom:5px; }
+  .spec-label.green  { color:var(--green); }
+  .spec-label.purple { color:var(--purple); }
+  .spec-label.brown  { color:var(--brown); }
+  .spec-label.dark   { color:#2E2E4E; }
+  .spec-label.teal   { color:var(--teal); }
+  .spec-value { font-size:13.5px; line-height:1.6; }
+  .device-footer { display:flex; border-top:1px solid var(--border); }
+  .stat { flex:1; padding:14px 20px; text-align:center; border-right:1px solid var(--border); }
+  .stat:last-child { border-right:none; }
+  .stat-label { font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--muted); margin-bottom:4px; }
+  .stat-value { font-size:15px; font-weight:700; }
+  .stat-value.green  { color:var(--green); }
+  .stat-value.purple { color:var(--purple); }
+  .stat-value.brown  { color:var(--brown); }
+  .stat-value.dark   { color:#2E2E4E; }
+  .stat-value.teal   { color:var(--teal); }
+  .warning-bar { padding:10px 16px; font-size:13px; display:flex; align-items:flex-start; gap:8px; }
+  .warn-info { background:#EBF5FB; border-left:4px solid #3498DB; color:#1A5276; }
+  .warn-caution { background:#FEF9F0; border-left:4px solid var(--warning); color:#935116; }
+  .warn-icon { flex-shrink:0; margin-top:1px; }
+  .page-footer { text-align:center; color:var(--muted); font-size:12px; padding:32px; border-top:1px solid var(--border); margin-top:24px; }
+  .page-footer a { color:var(--navy); text-decoration:none; }
+  .tag { display:inline-block; border-radius:6px; padding:2px 10px; font-size:12px; font-weight:600; }
+  .tag-green { background:var(--green-light); color:var(--green); }
+  .tag-purple { background:var(--purple-light); color:var(--purple); }
+  .tag-brown { background:var(--brown-light); color:var(--brown); }
+  .tag-dark { background:#E8E8F0; color:#2E2E4E; }
+  .tag-teal { background:var(--teal-light); color:var(--teal); }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-inner">
+    <div>
+      <span class="cover-vol">📘 Volume II</span>
+      <span class="cover-badge">🔒 Dokumen Terbatas</span>
+    </div>
+    <h1>Katalog <span>Perangkat Intelijen</span></h1>
+    <p class="subtitle">Supplementary Devices — Robotsoft / Blue Dragon Security</p>
+    <div class="cover-meta">
+      <div class="cover-meta-item"><span class="label">Kategori Baru</span><span class="value">5 Kategori</span></div>
+      <div class="cover-meta-item"><span class="label">Total Perangkat</span><span class="value">13 Unit Baru</span></div>
+      <div class="cover-meta-item"><span class="label">Fokus</span><span class="value">Counter-Surv, Forensik, Drone, Kripto</span></div>
+      <div class="cover-meta-item"><span class="label">Tahun</span><span class="value">2026</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="summary-section">
+    <h2>📊 Ringkasan Kategori Baru (Volume II)</h2>
+    <table class="summary-table">
+      <thead><tr><th>Kategori</th><th>Perangkat</th><th>Est. Budget</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag tag-green">Counter-Surveillance</span></td><td>RF Bug Detector, NLJD, Spectrum Monitor</td><td>Rp 4.900.000</td></tr>
+        <tr><td><span class="tag tag-purple">RFID / NFC</span></td><td>Multi-Protocol Cloner, Badge Skimmer</td><td>Rp 2.100.000</td></tr>
+        <tr><td><span class="tag tag-brown">Forensik Digital</span></td><td>Mobile Triage, Disk Imager, Network Forensic</td><td>Rp 5.300.000</td></tr>
+        <tr><td><span class="tag tag-dark">Drone Intel</span></td><td>ISR Drone, Counter-Drone RF Detector</td><td>Rp 6.000.000</td></tr>
+        <tr><td><span class="tag tag-teal">Komunikasi Aman</span></td><td>LoRa Mesh Radio, Faraday Bag, HW Security Key</td><td>Rp 950.000</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===== CAT 6: COUNTER-SURV ===== -->
+  <div class="category-banner cat-green">
+    <span class="cat-icon">🛡️</span>
+    <h2>Counter-Surveillance & Bug Detection</h2>
+    <span class="cat-count">3 perangkat</span>
+  </div>
+
+  <div class="device-card green">
+    <div class="device-header">
+      <span class="device-id device-id-green">6.1</span>
+      <h3>RF Bug / Hidden Camera Detector</h3>
+    </div>
+    <div class="device-desc">Perangkat untuk mendeteksi perangkat penyadap (bug) dan kamera tersembunyi di ruangan sebelum pertemuan sensitif berlangsung. Menggabungkan tiga metode: RF emission scanning, deteksi lensa kamera via inframerah, dan analisis anomali sinyal. Wajib dimiliki tim counter-surveillance sebelum briefing atau negosiasi penting.</div>
+    <div class="specs-grid">
+      <div class="spec-item"><div class="spec-label green">🔧 Hardware</div><div class="spec-value">ESP32 + modul RF detector TL-07H (1MHz–6GHz) + sensor IR untuk lens detection + OLED display + buzzer + baterai LiPo 2000mAh</div></div>
+      <div class="spec-item"><div class="spec-label green">💻 Software</div><div class="spec-value">Custom firmware: RF threshold alert, sweep mode, sensitivity adjustment, logging ke MicroSD</div></div>
+      <div class="spec-item full-width"><div class="spec-label green">⚙️ Fungsi Utama</div><div class="spec-value">Sweep RF 1MHz–6GHz dan alert jika ada pemancar aktif • Deteksi lensa kamera via pantulan IR (efektif untuk kamera tersembunyi non-WiFi) • Mode visual: bar graph kekuatan sinyal per frekuensi • Audio alert berbeda untuk RF vs kamera • Sensitivity adjustable untuk menghindari false positive dari perangkat resmi</div></div>
+      <div class="spec-item full-width"><div class="spec-label green">🎯 Use Case Operasional</div><div class="spec-value">Sweep ruang rapat sebelum diskusi sensitif • Deteksi bug di kendaraan dinas • Counter-surveillance sebelum operasi lapangan • Pemeriksaan kamar hotel untuk delegasi atau pimpinan VIP</div></div>
+    </div>
+    <div class="warning-bar warn-info"><span class="warn-icon">ℹ️</span> Deteksi kamera pasif (tanpa WiFi/RF) memerlukan kondisi pencahayaan gelap. Gabungkan dengan pemeriksaan fisik manual untuk hasil optimal.</div>
+    <div class="device-footer">
+      <div class="stat"><div class="stat-label">Budget</div><div class="stat-value green">Rp 800.000</div></div>
+      <div class="stat"><div class="stat-label">Waktu Build</div><div class="stat-value green">1 Minggu</div></div>
+      <div class="stat"><div class="stat-label">Coverage</div><div class="stat-value green">1MHz–6GHz</div></div>
+      <div class="stat"><div class="stat-label">Mode</div><div class="stat-value green">Passive Sweep</div></div>
+    </div>
+  </div>
+
+  <div class="device-card green">
+    <div class="device-header">
+      <span class="device-id device-id-green">6.2</span>
+      <h3>Non-Linear Junction Detector (NLJD) Sederhana</h3>
+    </div>
+    <div class="device-desc">Versi terjangkau dari NLJD profesional — alat yang memancarkan sinyal microwave dan mendeteksi harmonic response dari semikonduktor tersembunyi (transistor, IC) meski perangkat dalam kondisi mati. Ini cara paling andal mendeteksi bug elektronik yang sedang tidak aktif atau dalam mode sleep. Perangkat NLJD profesional komersial berharga ratusan juta — versi ini membangun fungsi inti dengan sepersepuluh biaya.</div>
+    <div class="specs-grid">
+      <div class="spec-item"><div class="spec-label green">🔧 Hardware</div><div class="spec-value">HackRF One + antena probe directional custom (horn antenna) + RPi 4 + LNA low-noise amplifier + shielded coax cable + display portable</div></div>
+      <div class="spec-item"><div class="spec-label green">💻 Software</div><div class="spec-value">GNU Radio: transmit 920MHz, receive & analyze 1840MHz (2nd harmonic) + 2760MHz (3rd harmonic), threshold detection, anomaly mapping</div></div>
+      <div class="spec-item full-width"><div class="spec-label green">⚙️ Fungsi Utama</div><div class="spec-value">Memancarkan sinyal probe 920MHz ke permukaan yang diinspeksi • Mendeteksi harmonic emission pada 1840MHz dan 2760MHz yang hanya dihasilkan semikonduktor • Response lebih kuat pada komponen aktif (IC, transistor) vs material pasif (logam, dinding) • Sweep permukaan dinding, furnitur, benda dekorasi, colokan listrik • Log peta area dengan posisi anomali tertandai</div></div>
+      <div class="spec-item full-width"><div class="spec-label green">🎯 Use Case Operasional</div><div class="spec-value">Pemeriksaan mendalam ruangan VIP, SCIF darurat, atau ruang negotiation • Deteksi bug yang sedang sleep atau off (tidak terdeteksi RF sweep biasa) • Verifikasi lanjutan setelah RF/IR sweep awal tidak menemukan apapun • Pemeriksaan furnitur atau hadiah yang diterima dari pihak tidak dikenal</div></div>
+    </div>
+    <div class="warning-bar warn-caution"><span class="warn-icon">⚠️</span> Memerlukan kalibrasi dan pengalaman operator untuk membedakan false positive (komponen listrik normal) dari target nyata. Direkomendasikan training sebelum deployment.</div>
+    <div class="device-footer">
+      <div class="stat"><div class="stat-label">Budget</div><div class="stat-value green">Rp 3.500.000</div></div>
+      <div class="stat"><div class="stat-label">Waktu Build</div><div class="stat-value green">2–3 Minggu</div></div>
+      <div class="stat"><div class="stat-label">Metode</div><div class="stat-value green">Harmonic Detection</div></div>
+      <div class="stat"><div class="stat-label">Deteksi</div><div class="stat-value green">Perangkat ON maupun OFF</div></div>
+    </div>
+  </div>
+
+  <div class="device-card green">
+    <div class="device-header">
+      <span class="device-id device-id-green">6.3</span>
+      <h3>Spectrum Anomaly Monitor (Passive Room Guard)</h3>
+    </div>
+    <div class="device-desc">Unit yang dipasang permanen di ruangan sensitif untuk monitoring RF berkelanjutan 24/7. Secara otomatis mempelajari baseline spektrum RF normal ruangan dalam 24 jam pertama, lalu memberikan alert real-time jika muncul sinyal baru yang tidak dikenali — indikasi pemasangan bug baru atau kehadiran perangkat asing. Tidak memerlukan operator aktif.</div>
+    <div class="specs-grid">
+      <div class="spec-item"><div class="spec-label green">🔧 Hardware</div><div class="spec-value">RTL-SDR v3 + Raspberry Pi Zero 2W + antena omnidirectional indoor + powered via USB (selalu terhubung listrik)</div></div>
+      <div class="spec-item"><div class="spec-label green">💻 Software</div><div class="spec-value">Custom Python: spectrum baseline learning (FFT averaging 24 jam), anomaly detection (isolation forest ML), Telegram bot alert, web dashboard history</div></div>
+      <div class="spec-item full-width"><div class="spec-label green">⚙️ Fungsi Utama</div><div class="spec-value">Belajar baseline spektrum RF unik ruangan dalam 24 jam pertama • Alert otomatis jika ada sinyal RF baru atau abnormal muncul • Dashboard web dengan history spektrum 7 hari terakhir • Notifikasi via Telegram bot dengan screenshot spektrum anomali dan timestamp • Laporan harian otomatis: kondisi normal atau ada anomali</div></div>
+      <div class="spec-item full-width"><div class="spec-label green">🎯 Use Case Operasional</div><div class="spec-value">Perlindungan pasif ruang kerja pejabat penting secara 24/7 • Deteksi dini aktivitas surveilans pihak lawan • Monitoring otomatis tanpa butuh operator aktif setiap saat • Deteksi jika ada yang memasang perangkat baru saat ruangan kosong</div></div>
+    </div>
+    <div class="warning-bar warn-info"><span class="warn-icon">ℹ️</span> Pasang dan lupakan — berjalan headless tanpa monitor. Alert langsung masuk Telegram kapanpun anomali terdeteksi, siang maupun malam.</div>
+    <div class="device-footer">
+      <div class="stat"><div class="stat-label">Budget</div><div class="stat-value green">Rp 600.000</div></div>
+      <div class="stat"><div class="stat-label">Waktu Build</div><div class="stat-value green">1 Minggu</div></div>
+      <div class="stat"><div class="stat-label">Operasi</div><div class="stat-value green">24/7 Otomatis</div></div>
+      <div class="stat"><div class="stat-label">Alert</div><div class="stat-value green">Telegram Realtime</div></div>
+    </div>
+  </div>
+
+  <!-- ===== CAT 7: RFID ===== -->
+  <div class="category-banner cat-purple">
+    <span class="cat-icon">💳</span>
+    <h2>RFID / NFC / Akses Fisik</h2>
+    <span class="cat-count">2 perangkat</span>
+  </div>
+
+  <div class="device-card purple">
+    <div class="device-header"><span class="device-id device-id-purple">7.1</span><h3>RFID/NFC Multi-Protocol Cloner</h3></div>
+    <div class="device-desc">Perangkat portabel untuk membaca, menganalisis, dan mengkloning kartu akses RFID/NFC yang digunakan pada sistem access control gedung, kunci kartu hotel, dan kartu identitas. Mendukung berbagai protokol dari kartu murah (EM4100) hingga kartu semi-modern (MIFARE Classic) yang masih sangat luas digunakan di Indonesia.</div>
+    <div class="specs-grid">
+      <div class="spec-item"><div class="spec-label purple">🔧 Hardware</div><div class="spec-value">PN532 NFC module + ACR122U USB reader + ESP32 (controller) + OLED display + baterai 2000mAh + kartu blank RFID/NFC (125kHz + 13.56MHz)</div></div>
+      <div class="spec-item"><div class="spec-label purple">💻 Software</div><div class="spec-value">libnfc, nfc-tools, Proxmark3-compatible scripts, custom clone writer firmware, MIFARE Classic nested attack tool</div></div>
+      <div class="spec-item full-width"><div class="spec-label purple">⚙️ Fungsi Utama</div><div class="spec-value">Read dan decode UID kartu EM4100, HID Prox 125kHz • Read MIFARE Classic (1K/4K), MIFARE Ultralight, NTAG21x • Crack MIFARE Classic sector key via nested authentication attack • Tulis UID dan data ke kartu blank • Emulasi kartu via NFC-enabled Android (mode virtual card)</div></div>
+      <div class="spec-item full-width"><div class="spec-label purple">🎯 Use Case Operasional</div><div class="spec-value">Physical penetration testing akses gedung target • Clone kartu akses personel selama operasi proximate • Security assessment kelemahan sistem access control instansi klien • Entry ke area terbatas dalam operasi fisik yang memiliki legal basis</div></div>
+    </div>
+    <div class="warning-bar warn-caution"><span class="warn-icon">⚠️</span> MIFARE Classic masih sangat luas dipakai di gedung Indonesia. MIFARE DESFire AES memerlukan teknik lebih lanjut dan tidak tercakup di sini.</div>
+    <div class="device-footer">
+      <div class="stat"><div class="stat-label">Budget</div><div class="stat-value purple">Rp 1.200.000</div></div>
+      <div class="stat"><div class="stat-label">Waktu Build</div><div class="stat-value purple">1 Minggu</div></div>
+      <div class="stat"><div class="stat-label">Protokol</div><div class="stat-value purple">EM4100 · HID · MIFARE</div></div>
+      <div class="stat"><div class="stat-label">Mode</div><div class="stat-value purple">Read · Clone · Emulate</div></div>
+    </div>
+  </div>
+
+  <div class="device-card purple">
+    <div class="device-header"><span class="device-id device-id-purple">7.2</span><h3>Covert RFID Badge Skimmer</h3></div>
+    <div class="device-desc">Perangkat tersembunyi yang membaca kartu RFID/NFC secara diam-diam saat target berada dalam jarak dekat tanpa perlu mengeluarkan kartu dari dompet atau kantong. Dirancang untuk disamarkan dalam tas, clipboard, atau objek sehari-hari. Data tersimpan otomatis dan diunduh via Bluetooth ke smartphone operator.</div>
+    <div class="specs-grid">
+      <div class="spec-item"><div class="spec-label purple">🔧 Hardware</div><div class="spec-value">Long-range RFID reader module (125kHz + 13.56MHz) + ESP32-BLE + baterai 5000mAh + antena booster flat custom + casing tersembunyi (clipboard / tas)</div></div>
+      <div class="spec-item"><div class="spec-label purple">💻 Software</div><div class="spec-value">Custom firmware: auto-log semua UID kartu terbaca, deduplication, timestamp, BLE GATT server untuk export ke smartphone tanpa USB</div></div>
+      <div class="spec-item full-width"><div class="spec-label purple">⚙️ Fungsi Utama</div><div class="spec-value">Read UID kartu 125kHz (EM4100, HID Prox) dari jarak 5–30cm • Read UID kartu 13.56MHz (MIFARE) dari jarak 5–15cm • Auto-log semua kartu unik yang terdeteksi (dedup via UID) • Operasi silent: tidak ada LED, suara, atau indikator visual • Export log via Bluetooth — tidak perlu kabel USB</div></div>
+      <div class="spec-item full-width"><div class="spec-label purple">🎯 Use Case Operasional</div><div class="spec-value">Pengumpulan UID kartu akses target dalam operasi social engineering jarak dekat • Reconnaissance sistem access control sebelum physical entry • Konfirmasi jenis kartu yang digunakan di fasilitas target</div></div>
+    </div>
+    <div class="warning-bar warn-caution"><span class="warn-icon">⚠️</span> Hanya digunakan dalam operasi yang memiliki legal basis resmi. Range baca 125kHz lebih jauh dibanding 13.56MHz — bergantung pada antena dan jenis kartu target.</div>
+    <div class="device-footer">
+      <div class="stat"><div class="stat-label">Budget</div><div class="stat-value purple">Rp 900.000</div></div>
+      <div class="stat"><div class="stat-label">Waktu Build</div><div class="stat-value purple">1 Minggu</div></div>
+      <div class="stat"><div class="stat-label">Range</div><div class="stat-value purple">5–30cm (125kHz)</div></div>
+      <div class="stat"><div class="stat-label">Mode</div><div class="stat-value purple">Silent · BLE Export</div></div>
+    </div>
+  </div>
+
+  <!-- ===== CAT 8: FORENSIK ===== -->
+  <div class="category-banner cat-brown">
+    <span class="cat-icon">🔬</span>
+    <h2>Forensik Digital Lapangan</h2>
+    <span class="cat-count">3 perangkat</span>
+  </div>
+
+  <div class="device-card brown">
+    <div class="device-header"><span class="device-id device-id-brown">8.1</span><h3>Mobile Device Triage Unit</h3></div>
+    <div class="device-desc">Appliance untuk akuisisi data cepat dari perangkat mobile yang diperoleh secara fisik di lapangan. Melakukan ekstraksi data tanpa mengubah state perangkat (forensically sound), mendukung Android via ADB. Hasil akuisisi dalam format yang kompatibel dengan tools forensik standar (Autopsy, Cellebrite-compatible image format).</div>
+    <div class="specs-grid">
+      <div class="spec-item"><div class="spec-label brown">🔧 Hardware</div><div class="spec-value">Mini PC / RPi 4 + USB hub + set kabel (USB-C, Lightning, Micro-USB, USB-A) + SSD eksternal 1TB + display portable 13"</div></div>
+      <div class="spec-item"><div class="spec-label brown">💻 Software</div><div class="spec-value">ADB + adb-dump automation scripts, Android backup extractor, Frida-server untuk bypass, Autopsy forensic suite lokal, metadata analyzer (ExifTool)</div></div>
+      <div class="spec-item full-width"><div class="spec-label brown">⚙️ Fungsi Utama</div><div class="spec-value">Full backup Android via ADB (aplikasi, chat, foto, dokumen, kontak) • Ekstraksi database WhatsApp, Telegram (jika tidak full-encrypt) • Dump call log, SMS, browser history • Analisis metadata foto: GPS location, timestamp, device model • Generate hash SHA-256 per file untuk chain of custody • Report HTML otomatis dengan daftar artefak ditemukan</div></div>
+      <div class="spec-item full-width"><div class="spec-label brown">🎯 Use Case Operasional</div><div class="spec-value">Triage cepat perangkat tersangka yang diperoleh di lapangan sebelum dibawa ke lab • Preservasi bukti digital sebelum perangkat dimatikan atau melakukan remote wipe • Rekonstruksi timeline aktivitas tersangka dari data perangkat • Ekstraksi kontak dan jaringan komunikasi untuk analisis lanjut</div></div>
+    </div>
+    <div class="warning-bar warn-info"><span class="warn-icon">ℹ️</span> Android dengan USB debugging aktif paling mudah diakuisisi. Full-disk encryption Android modern (versi 10+) membatasi akses data at-rest. iOS sangat terbatas tanpa jailbreak.</div>
+    <div class="device-footer">
+      <div class="stat"><div class="stat-label">Budget</div><div class="stat-value brown">Rp 2.000.000</div></div>
+      <div class="stat"><div class="stat-label">Waktu Build</div><div class="stat-value brown">1.5 Minggu</div></div>
+      <div class="stat"><div class="stat-label">Target</div><div class="stat-value brown">Android (primer) · iOS (terbatas)</div></div>
+      <div class="stat"><div class="stat-label">Output</div><div class="stat-value brown">Dump + Hash + HTML Report</div></div>
+    </div>
+  </div>
+
+  <div class="device-card brown">
+    <div class="device-header"><span class="device-id device-id-brown">8.2</span><h3>Portable Disk Imager & Write Blocker</h3></div>
+    <div class="device-desc">Tool forensik untuk membuat disk image identik dari storage media yang disita (HDD, SSD, USB flash drive, MicroSD) tanpa memodifikasi data asli. Write blocker hardware/software memastikan tidak ada data yang tertulis ke media sumber — menjaga integritas barang bukti dan rantai kustodi untuk keperluan hukum.</div>
+    <div class="specs-grid">
+      <div class="spec-item"><div class="spec-label brown">🔧 Hardware</div><div class="spec-value">RPi 4 / Mini PC + USB 3.0 hub + hardware write blocker (FastBloc USB atau equivalen) + SSD NVME 2TB (storage image) + display portable</div></div>
+      <div class="spec-item"><div class="spec-label brown">💻 Software</div><div class="spec-value">Guymager (forensic imager GUI), dcfldd dengan progress bar, md5sum/sha256sum otomatis, Sleuth Kit (preview file system), laporan akuisisi auto-generate</div></div>
+      <div class="spec-item full-width"><div class="spec-label brown">⚙️ Fungsi Utama</div><div class="spec-value">Disk imaging kecepatan hingga 150MB/s (SSD-to-SSD) • Format image E01/raw (kompatibel Autopsy, FTK, Cellebrite) • Hash MD5 + SHA-256 otomatis sebelum dan sesudah imaging untuk verifikasi integritas • Preview isi file system tanpa mounting penuh (tidak mengubah atime) • Laporan akuisisi PDF otomatis: timestamp, operator, hash, ukuran media</div></div>
+      <div class="spec-item full-width"><div class="spec-label brown">🎯 Use Case Operasional</div><div class="spec-value">Akuisisi forensik HDD/SSD dari komputer tersangka • Imaging USB flash drive atau MicroSD barang bukti • Preservasi bukti digital sesuai standar yang dapat dipertahankan di persidangan • Duplikasi media untuk analisis paralel tanpa risiko pada media asli</div></div>
+    </div>
+    <div class="warning-bar warn-info"><span class="warn-icon">ℹ️</span> Format E01 + hash SHA-256 adalah standar internasional untuk bukti digital. Hash yang cocok sebelum/sesudah imaging membuktikan integritas di persidangan.</div>
+    <div class="device-footer">
+      <div class="stat"><div class="stat-label">Budget</div><div class="stat-value brown">Rp 1.800.000</div></div>
+      <div class="stat"><div class="stat-label">Waktu Build</div><div class="stat-value brown">1 Minggu</div></div>
+      <div class="stat"><div class="stat-label">Kecepatan</div><div class="stat-value brown">~150MB/s</div></div>
+      <div class="stat"><div class="stat-label">Format</div><div class="stat-value brown">E01 · RAW · AFF</div></div>
+    </div>
+  </div>
+
+  <div class="device-card brown">
+    <div class="device-header"><span class="device-id device-id-brown">8.3</span><h3>Network Forensic Capture & Analysis Box</h3></div>
+    <div class="device-desc">Appliance full packet capture untuk merekam dan menganalisis semua traffic jaringan dalam sesi investigasi. Deployment cepat: colokkan ke port mirror switch atau mode inline, dalam menit sudah merekam. Interface analisis web lokal sehingga investigator dapat menganalisis hasilnya secara langsung tanpa tools eksternal atau koneksi internet.</div>
+    <div class="specs-grid">
+      <div class="spec-item"><div class="spec-label brown">🔧 Hardware</div><div class="spec-value">Mini PC (Intel N100, 8GB RAM) + 2× Gigabit Ethernet + SSD NVME 1TB + kipas pendingin</div></div>
+      <div class="spec-item"><div class="spec-label brown">💻 Software</div><div class="spec-value">Arkime (full packet capture + indexing), Zeek IDS/NSM (protocol parser), Elasticsearch lokal, Kibana dashboard, NetworkMiner (artifact extraction)</div></div>
+      <div class="spec-item full-width"><div class="spec-label brown">⚙️ Fungsi Utama</div><div class="spec-value">Full packet capture 100/1000Mbps ke disk dengan indexing • Auto-parsing protokol: HTTP, DNS, TLS metadata, SMTP, FTP, SMB, Kerberos • Rekonstruksi file yang ditransfer (gambar, dokumen, executable) otomatis • Alert koneksi ke IP/domain berbahaya (threat intel feed lokal) • Query interaktif via Arkime web UI — tidak butuh command line • Export PCAP per sesi untuk analisis lanjut</div></div>
+      <div class="spec-item full-width"><div class="spec-label brown">🎯 Use Case Operasional</div><div class="spec-value">Investigasi insiden keamanan jaringan instansi • Rekonstruksi aktivitas tersangka di jaringan internal • Identifikasi dan bukti data exfiltration • Monitoring jaringan pasca-kompromi untuk deteksi persistence • Analisis malware C2 communication dari sampel yang ditangkap</div></div>
+    </div>
+    <div class="warning-bar warn-info"><span class="warn-icon">ℹ️</span> SSD NVME 1TB menampung 8–24 jam full traffic 100Mbps. Kapasitas expandable dengan SSD eksternal USB 3.0. Arkime web UI sangat intuitif untuk investigator non-teknis.</div>
+    <div class="device-footer">
+      <div class="stat"><div class="stat-label">Budget</div><div class="stat-value brown">Rp 1.500.000</div></div>
+      <div class="stat"><div class="stat-label">Waktu Build</div><div class="stat-value brown">1.5 Minggu</div></div>
+      <div class="stat"><div class="stat-label">Capture</div><div class="stat-value brown">100/1000Mbps</div></div>
+      <div class="stat"><div class="stat-label">Storage</div><div class="stat-value brown">1TB (~24 jam)</div></div>
+    </div>
+  </div>
+
+  <!-- ===== CAT 9: DRONE ===== -->
+  <div class="category-banner cat-dark">
+    <span class="cat-icon">🚁</span>
+    <h2>Drone Intelligence & Counter-Drone</h2>
+    <span class="cat-count">2 perangkat</span>
+  </div>
+
+  <div class="device-card dark">
+    <div class="device-header"><span class="device-id device-id-dark">9.1</span><h3>Drone ISR (Intelligence, Surveillance, Reconnaissance)</h3></div>
+    <div class="device-desc">Drone quadcopter yang dimodifikasi untuk misi ISR: equipped dengan kamera visual 4K dan kamera thermal, live FPV feed ke ground station, flight plan waypoint otomatis via GPS. Lebih terkontrol dan customizable dibanding drone DJI komersial untuk keperluan operasional khusus yang tidak ingin menggunakan platform dengan telemetri ke server asing.</div>
+    <div class="specs-grid">
+      <div class="spec-item"><div class="spec-label dark">🔧 Hardware</div><div class="spec-value">Frame 5-7 inch + Flight controller Pixhawk 6C + Kamera 4K (RunCam) + Kamera thermal FLIR Lepton 3.5 + VTX 1.2GHz 500mW + FPV goggles + Baterai LiPo 6S 5000mAh</div></div>
+      <div class="spec-item"><div class="spec-label dark">💻 Software</div><div class="spec-value">ArduCopter (Pixhawk), Mission Planner (waypoint otomatis), QGroundControl, custom video relay lokal (tidak ada telemetri ke cloud eksternal)</div></div>
+      <div class="spec-item full-width"><div class="spec-label dark">⚙️ Fungsi Utama</div><div class="spec-value">Live video feed 4K terenkripsi ke ground station jarak hingga 3km • Terbang waypoint GPS otomatis — operator tidak perlu kendali manual terus-menerus • Kamera thermal FLIR untuk deteksi manusia di kondisi gelap, asap, atau vegetasi lebat • Storage lokal microSD 4K untuk analisis post-flight detail • Tidak ada telemetri ke server cloud — sepenuhnya offline dan sovereign</div></div>
+      <div class="spec-item full-width"><div class="spec-label dark">🎯 Use Case Operasional</div><div class="spec-value">Reconnaissance area operasi sebelum tim ground masuk • Aerial surveillance target dari jarak aman tanpa paparan fisik • Deteksi manusia di area gelap atau vegetasi via thermal (malam hari) • Monitoring perimeter area luas yang tidak mungkin di-cover tim darat</div></div>
+    </div>
+    <div class="warning-bar warn-caution"><span class="warn-icon">⚠️</span> Flight time 20–30 menit per baterai. Terbang di atas 150m AGL memerlukan izin DGCA. Direkomendasikan untuk operasi yang sudah memiliki clearance instansi berwenang.</div>
+    <div class="device-footer">
+      <div class="stat"><div class="stat-label">Budget</div><div class="stat-value dark">Rp 4.500.000</div></div>
+      <div class="stat"><div class="stat-label">Waktu Build</div><div class="stat-value dark">3–4 Minggu</div></div>
+      <div class="stat"><div class="stat-label">Flight Time</div><div class="stat-value dark">20–30 Menit</div></div>
+      <div class="stat"><div class="stat-label">Video Range</div><div class="stat-value dark">~3 km</div></div>
+    </div>
+  </div>
+
+  <div class="device-card dark">
+    <div class="device-header"><span class="device-id device-id-dark">9.2</span><h3>Counter-Drone RF Detection System</h3></div>
+    <div class="device-desc">Sistem deteksi drone musuh berbasis analisis RF signature sinyal kontrol dan video link drone. Sepenuhnya PASSIVE — tidak memancarkan sinyal apapun. Memiliki database signature RF drone komersial populer (DJI OcuSync, Lightbridge, FPV racing frequencies) untuk identifikasi otomatis dan estimasi bearing arah datangnya ancaman.</div>
+    <div class="specs-grid">
+      <div class="spec-item"><div class="spec-label dark">🔧 Hardware</div><div class="spec-value">2× RTL-SDR (dual band 2.4GHz + 5.8GHz) + RPi 4 + antena directional dual-band + GPS modul (untuk timestamp dan geolocation) + display + baterai</div></div>
+      <div class="spec-item"><div class="spec-label dark">💻 Software</div><div class="spec-value">Custom Python: DJI/FPV/Autel RF signature database, real-time signal classifier (ML), bearing estimator, alert dashboard web lokal, Telegram bot alert</div></div>
+      <div class="spec-item full-width"><div class="spec-label dark">⚙️ Fungsi Utama</div><div class="spec-value">Deteksi sinyal kontrol drone komersial: DJI OcuSync 2/3, Lightbridge, Autel SkyLink, FPV 2.4/5.8GHz • Identifikasi protokol dan estimasi jenis drone • Bearing estimasi arah datangnya sinyal kontrol • Alert operator via dashboard + audio + Telegram bot • Log semua deteksi dengan timestamp untuk laporan insiden</div></div>
+      <div class="spec-item full-width"><div class="spec-label dark">🎯 Use Case Operasional</div><div class="spec-value">Perlindungan area VIP, pertemuan sensitif, atau venue penting dari drone surveillance asing • Deteksi drone tidak diotorisasi di area restricted / no-fly zone • Counter-intelligence: deteksi upaya surveillance udara dari pihak lawan</div></div>
+    </div>
+    <div class="warning-bar warn-info"><span class="warn-icon">ℹ️</span> Deteksi RF-based tidak menangkap drone autonomous tanpa sinyal aktif. Coverage optimal di area terbuka. Untuk proteksi penuh, kombinasikan dengan sensor akustik atau radar mikro.</div>
+    <div class="device-footer">
+      <div class="stat"><div class="stat-label">Budget</div><div class="stat-value dark">Rp 1.500.000</div></div>
+      <div class="stat"><div class="stat-label">Waktu Build</div><div class="stat-value dark">2 Minggu</div></div>
+      <div class="stat"><div class="stat-label">Detection Range</div><div class="stat-value dark">~1–3 km</div></div>
+      <div class="stat"><div class="stat-label">Mode</div><div class="stat-value dark">Passive 24/7</div></div>
+    </div>
+  </div>
+
+  <!-- ===== CAT 10: COMMS ===== -->
+  <div class="category-banner cat-teal">
+    <span class="cat-icon">🔐</span>
+    <h2>Komunikasi Aman & Enkripsi Lapangan</h2>
+    <span class="cat-count">3 perangkat</span>
+  </div>
+
+  <div class="device-card teal">
+    <div class="device-header"><span class="device-id device-id-teal">10.1</span><h3>Off-Grid Encrypted Mesh Radio (LoRa)</h3></div>
+    <div class="device-desc">Jaringan komunikasi teks terenkripsi end-to-end berbasis LoRa yang beroperasi tanpa infrastruktur seluler, WiFi, atau internet. Ideal untuk koordinasi tim di area blank spot sinyal, atau situasi di mana komunikasi via HP dianggap tidak aman atau sedang dimonitor. Setiap node berfungsi sebagai relay otomatis, memperpanjang jangkauan secara mesh.</div>
+    <div class="specs-grid">
+      <div class="spec-item"><div class="spec-label teal">🔧 Hardware</div><div class="spec-value">ESP32 + LoRa module SX1276 (433MHz atau 915MHz) + OLED display 1.3" + keyboard thumb mini opsional + baterai LiPo 3000mAh + antena fiberglass 5dBi</div></div>
+      <div class="spec-item"><div class="spec-label teal">💻 Software</div><div class="spec-value">Meshtastic firmware (open source, AES-256 encrypted, battle-tested), custom channel config, silent mode (no LED), store-and-forward relay, GPS position sharing opsional</div></div>
+      <div class="spec-item full-width"><div class="spec-label teal">⚙️ Fungsi Utama</div><div class="spec-value">Teks terenkripsi AES-256 end-to-end antar semua node • Range 5–15km per hop di terrain terbuka, extendable via relay node • Setiap node otomatis menjadi repeater untuk node lain (mesh) • Tidak butuh SIM card, WiFi, atau internet apapun • GPS position sharing opsional: semua anggota tim terlihat di peta yang sama • Daya tahan baterai 3–7 hari tergantung traffic</div></div>
+      <div class="spec-item full-width"><div class="spec-label teal">🎯 Use Case Operasional</div><div class="spec-value">Koordinasi tim operasi di area blank spot sinyal seluler • Komunikasi aman saat HP dianggap sedang dimonitor atau tidak aman • Backup komunikasi darurat jika jaringan seluler down atau jamming • Tracking posisi tim lapangan secara realtime tanpa internet</div></div>
+    </div>
+    <div class="warning-bar warn-info"><span class="warn-icon">ℹ️</span> Meshtastic sudah digunakan komunitas taktis dan emergency responder global. Enkripsi AES-256 end-to-end — bahkan node relay tidak dapat membaca isi pesan.</div>
+    <div class="device-footer">
+      <div class="stat"><div class="stat-label">Budget / node</div><div class="stat-value teal">Rp 500.000</div></div>
+      <div class="stat"><div class="stat-label">Waktu Build</div><div class="stat-value teal">3 Hari</div></div>
+      <div class="stat"><div class="stat-label">Range</div><div class="stat-value teal">5–15 km / hop</div></div>
+      <div class="stat"><div class="stat-label">Enkripsi</div><div class="stat-value teal">AES-256 E2E</div></div>
+    </div>
+  </div>
+
+  <div class="device-card teal">
+    <div class="device-header"><span class="device-id device-id-teal">10.2</span><h3>Faraday Bag Custom (Signal Isolator)</h3></div>
+    <div class="device-desc">Tas Faraday buatan sendiri yang memblokir semua sinyal RF secara bersamaan: GSM/4G/5G, WiFi, Bluetooth, GPS, dan NFC. Digunakan untuk membawa perangkat digital yang disita tanpa risiko remote wipe, mencegah tracking GPS target, atau melindungi perangkat sensitif. Dapat diproduksi dalam berbagai ukuran sesuai kebutuhan.</div>
+    <div class="specs-grid">
+      <div class="spec-item"><div class="spec-label teal">🔧 Hardware</div><div class="spec-value">Kain Faraday (lapisan tembaga + nikel) dari Glodok + lapisan luar Cordura 1000D + zipper tembaga konduktif + foam anti-static interior + sealing strip konduktif</div></div>
+      <div class="spec-item"><div class="spec-label teal">💻 Software</div><div class="spec-value">— (hardware only)</div></div>
+      <div class="spec-item full-width"><div class="spec-label teal">⚙️ Fungsi Utama</div><div class="spec-value">Atenuasi sinyal minimum -80dB di semua band: GSM 900/1800, LTE, 5G Sub-6, WiFi 2.4/5GHz, Bluetooth, GPS L1/L2, NFC • Blokir total remote wipe command ke perangkat yang disita • Isolasi GPS tracking aktif dari perangkat target • Verifikasi atenuasi menggunakan RTL-SDR sebagai QC tool • Tersedia ukuran: smartphone, tablet, laptop</div></div>
+      <div class="spec-item full-width"><div class="spec-label teal">🎯 Use Case Operasional</div><div class="spec-value">Pengamanan perangkat tersita agar tidak di-remote wipe sebelum akuisisi forensik • Transport perangkat bukti tanpa risiko modifikasi remote • Isolasi perangkat yang digunakan untuk operasi dari RF-based attack • Perlindungan perangkat enkripsi lapangan dari NFC sniffing</div></div>
+    </div>
+    <div class="warning-bar warn-info"><span class="warn-icon">ℹ️</span> Bisa diproduksi massal dengan biaya sangat murah. Kain Faraday tersedia per-meter dari toko komponen elektronik Glodok Jakarta. Atenuasi terukur dengan RTL-SDR untuk quality control setiap unit.</div>
+    <div class="device-footer">
+      <div class="stat"><div class="stat-label">Budget / unit</div><div class="stat-value teal">Rp 300.000</div></div>
+      <div class="stat"><div class="stat-label">Waktu Build</div><div class="stat-value teal">2 Hari</div></div>
+      <div class="stat"><div class="stat-label">Atenuasi</div><div class="stat-value teal">> -80 dB semua band</div></div>
+      <div class="stat"><div class="stat-label">Ukuran</div><div class="stat-value teal">HP · Tablet · Laptop</div></div>
+    </div>
+  </div>
+
+  <div class="device-card teal">
+    <div class="device-header"><span class="device-id device-id-teal">10.3</span><h3>Hardware Security Key (DIY FIDO2 / TOTP Token)</h3></div>
+    <div class="device-desc">Token keamanan hardware berbasis ESP32-S3 yang mengimplementasikan FIDO2/WebAuthn dan TOTP untuk autentikasi dua faktor yang tidak bisa di-phish. Melindungi akun operasional dari credential theft bahkan jika password bocor. Dibuat sendiri = lebih terpercaya dari token komersial yang berpotensi memiliki supply chain backdoor.</div>
+    <div class="specs-grid">
+      <div class="spec-item"><div class="spec-label teal">🔧 Hardware</div><div class="spec-value">ESP32-S3 + USB-C connector (USB HID mode) + kapasitif touch sensor (tombol fisik) + LED RGB status + Casing epoxy resin kecil (ukuran USB drive)</div></div>
+      <div class="spec-item"><div class="spec-label teal">💻 Software</div><div class="spec-value">Custom firmware: FIDO2/CTAP2 compliant (USB HID), TOTP generator RFC 6238, flash encryption ESP32 (secure element emulation), anti-tamper detection, wipe otomatis setelah 10 gagal</div></div>
+      <div class="spec-item full-width"><div class="spec-label teal">⚙️ Fungsi Utama</div><div class="spec-value">FIDO2 hardware token untuk login akun tanpa SMS OTP yang rentan SIM-swap attack • TOTP 6-digit generator untuk semua layanan 2FA standard (Google, Microsoft, dll) • Pure USB HID — tidak ada koneksi wireless (tidak bisa di-sniff atau di-jam) • Wipe otomatis setelah 10 percobaan PIN gagal (brute-force protection) • Firmware open-source: dapat diaudit sendiri untuk verifikasi tidak ada backdoor</div></div>
+      <div class="spec-item full-width"><div class="spec-label teal">🎯 Use Case Operasional</div><div class="spec-value">Perlindungan akun operasional instansi dari phishing dan SIM-swap attack • Authentication kuat untuk akses server, VPN, dan platform kritikal • Key management untuk sistem enkripsi komunikasi operasional • Distribusi ke personel lapangan dengan biaya jauh lebih rendah dari YubiKey komersial</div></div>
+    </div>
+    <div class="warning-bar warn-info"><span class="warn-icon">ℹ️</span> Jauh lebih murah dari YubiKey komersial (Rp 800rb+) dengan keunggulan utama: source code dapat diaudit penuh, tidak ada supply chain risk dari vendor asing.</div>
+    <div class="device-footer">
+      <div class="stat"><div class="stat-label">Budget / unit</div><div class="stat-value teal">Rp 150.000</div></div>
+      <div class="stat"><div class="stat-label">Waktu Build</div><div class="stat-value teal">3 Hari</div></div>
+      <div class="stat"><div class="stat-label">Standard</div><div class="stat-value teal">FIDO2 · TOTP RFC6238</div></div>
+      <div class="stat"><div class="stat-label">Keamanan</div><div class="stat-value teal">Anti-phish · Anti-tamper</div></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="page-footer">
+  <strong>DOKUMEN TERBATAS — VOLUME II</strong><br>
+  Robotsoft / Blue Dragon Security &nbsp;|&nbsp; <a href="https://bluedragonsec.com">bluedragonsec.com</a> &nbsp;|&nbsp; 2026
+</div>
+
+</body>
+</html>

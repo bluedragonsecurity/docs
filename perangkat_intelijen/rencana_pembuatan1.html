@@ -1,0 +1,599 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Katalog Perangkat Intelijen — Robotsoft / Blue Dragon Security</title>
+<style>
+  :root {
+    --teal: #0D7377;
+    --teal-light: #14BDBC;
+    --teal-bg: #E0F4F4;
+    --dark: #1A1A2E;
+    --dark2: #16213E;
+    --accent: #0F3460;
+    --gray: #F7F9FA;
+    --border: #D0E8E8;
+    --text: #2C3E50;
+    --muted: #7F8C8D;
+    --warning: #E67E22;
+    --warning-bg: #FEF9F0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #F0F4F8; color: var(--text); }
+
+  /* HEADER */
+  .cover {
+    background: linear-gradient(135deg, var(--dark) 0%, var(--dark2) 40%, var(--teal) 100%);
+    color: white; padding: 60px 48px 48px; position: relative; overflow: hidden;
+  }
+  .cover::before {
+    content: ''; position: absolute; top: -60px; right: -60px;
+    width: 300px; height: 300px; border-radius: 50%;
+    background: rgba(13,115,119,0.3); z-index: 0;
+  }
+  .cover::after {
+    content: ''; position: absolute; bottom: -40px; left: 20%;
+    width: 200px; height: 200px; border-radius: 50%;
+    background: rgba(20,189,188,0.15); z-index: 0;
+  }
+  .cover-inner { position: relative; z-index: 1; max-width: 900px; }
+  .cover-badge {
+    display: inline-block; background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3); border-radius: 20px;
+    padding: 4px 16px; font-size: 12px; letter-spacing: 2px;
+    text-transform: uppercase; margin-bottom: 24px;
+  }
+  .cover h1 { font-size: 42px; font-weight: 800; line-height: 1.15; margin-bottom: 12px; }
+  .cover h1 span { color: var(--teal-light); }
+  .cover .subtitle { font-size: 16px; opacity: 0.75; margin-bottom: 32px; }
+  .cover-meta {
+    display: flex; gap: 32px; flex-wrap: wrap;
+    border-top: 1px solid rgba(255,255,255,0.2); padding-top: 24px;
+  }
+  .cover-meta-item { display: flex; flex-direction: column; }
+  .cover-meta-item .label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.6; }
+  .cover-meta-item .value { font-size: 18px; font-weight: 700; color: var(--teal-light); }
+
+  /* LAYOUT */
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px 60px; }
+
+  /* SUMMARY TABLE */
+  .summary-section { background: white; border-radius: 12px; margin: 32px 0; box-shadow: 0 2px 16px rgba(0,0,0,0.06); overflow: hidden; }
+  .summary-section h2 { background: var(--dark); color: white; padding: 18px 28px; font-size: 16px; letter-spacing: 1px; text-transform: uppercase; }
+  .summary-table { width: 100%; border-collapse: collapse; }
+  .summary-table th { background: var(--teal); color: white; padding: 12px 16px; text-align: left; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .summary-table td { padding: 11px 16px; border-bottom: 1px solid var(--border); font-size: 14px; }
+  .summary-table tr:nth-child(even) td { background: var(--gray); }
+  .summary-table tr:last-child td { background: var(--teal-bg); font-weight: 700; color: var(--teal); border-top: 2px solid var(--teal); }
+  .summary-table tr:hover td { background: #E8F5F5; }
+  .tag { display: inline-block; background: var(--teal-bg); color: var(--teal); border-radius: 6px; padding: 2px 10px; font-size: 12px; font-weight: 600; }
+
+  /* CATEGORY */
+  .category-banner {
+    background: linear-gradient(90deg, var(--dark) 0%, var(--accent) 100%);
+    color: white; padding: 20px 32px; border-radius: 10px;
+    margin: 40px 0 24px; display: flex; align-items: center; gap: 16px;
+  }
+  .category-banner .cat-icon { font-size: 28px; }
+  .category-banner h2 { font-size: 20px; font-weight: 700; letter-spacing: 0.5px; }
+  .category-banner .cat-count { margin-left: auto; background: rgba(255,255,255,0.15); border-radius: 20px; padding: 4px 14px; font-size: 12px; }
+
+  /* DEVICE CARD */
+  .device-card {
+    background: white; border-radius: 12px; margin-bottom: 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06); overflow: hidden;
+    border-left: 4px solid var(--teal);
+  }
+  .device-card:hover { box-shadow: 0 4px 24px rgba(13,115,119,0.15); transform: translateY(-1px); transition: all 0.2s; }
+  .device-header { padding: 20px 28px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; gap: 16px; }
+  .device-id { background: var(--teal); color: white; border-radius: 8px; padding: 6px 12px; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+  .device-header h3 { font-size: 20px; color: var(--dark); font-weight: 700; }
+  .device-desc { padding: 16px 28px; color: var(--text); line-height: 1.7; font-size: 14.5px; background: var(--gray); }
+
+  /* SPECS GRID */
+  .specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .spec-item { padding: 14px 20px 14px 28px; border-bottom: 1px solid var(--border); }
+  .spec-item:nth-child(odd) { border-right: 1px solid var(--border); }
+  .spec-item.full-width { grid-column: 1 / -1; }
+  .spec-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--teal); font-weight: 700; margin-bottom: 5px; }
+  .spec-value { font-size: 13.5px; color: var(--text); line-height: 1.6; }
+
+  /* FOOTER ROW */
+  .device-footer { display: flex; gap: 0; border-top: 1px solid var(--border); }
+  .device-footer .stat { flex: 1; padding: 14px 20px; text-align: center; border-right: 1px solid var(--border); }
+  .device-footer .stat:last-child { border-right: none; }
+  .device-footer .stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 4px; }
+  .device-footer .stat-value { font-size: 16px; font-weight: 700; color: var(--teal); }
+
+  /* WARNING */
+  .warning-bar {
+    background: var(--warning-bg); border-left: 4px solid var(--warning);
+    padding: 10px 16px; margin: 0; font-size: 13px; color: #935116;
+    display: flex; align-items: flex-start; gap: 8px;
+  }
+  .warning-bar .warn-icon { flex-shrink: 0; font-size: 15px; margin-top: 1px; }
+
+  /* PRINT */
+  @media print {
+    body { background: white; }
+    .device-card { break-inside: avoid; }
+    .category-banner { break-after: avoid; }
+  }
+
+  /* FOOTER */
+  .page-footer { text-align: center; color: var(--muted); font-size: 12px; padding: 32px; border-top: 1px solid var(--border); margin-top: 24px; }
+  .page-footer a { color: var(--teal); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-inner">
+    <div class="cover-badge">🔒 Dokumen Terbatas</div>
+    <h1>Katalog <span>Perangkat Intelijen</span></h1>
+    <p class="subtitle">Robotsoft / Blue Dragon Security — Intelligence Hardware & Software Collection</p>
+    <div class="cover-meta">
+      <div class="cover-meta-item"><span class="label">Total Budget</span><span class="value">Rp 10.000.000</span></div>
+      <div class="cover-meta-item"><span class="label">Timeline</span><span class="value">6–7 Minggu</span></div>
+      <div class="cover-meta-item"><span class="label">Total Perangkat</span><span class="value">15 Unit</span></div>
+      <div class="cover-meta-item"><span class="label">Kategori</span><span class="value">5 Kategori</span></div>
+      <div class="cover-meta-item"><span class="label">Tahun</span><span class="value">2026</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- SUMMARY TABLE -->
+  <div class="summary-section">
+    <h2>📊 Ringkasan Paket Optimal</h2>
+    <table class="summary-table">
+      <thead><tr><th>Kategori</th><th>Perangkat</th><th>Budget</th><th>Timeline</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag">SIGINT / RF</span></td><td>Portable SDR Scanner</td><td>Rp 1.500.000</td><td>1 minggu</td></tr>
+        <tr><td><span class="tag">WiFi Intel</span></td><td>Passive WiFi Probe Unit</td><td>Rp 800.000</td><td>3 hari</td></tr>
+        <tr><td><span class="tag">IoT / RF</span></td><td>Universal RF Replay Device</td><td>Rp 500.000</td><td>3 hari</td></tr>
+        <tr><td><span class="tag">OSINT</span></td><td>Phone Number Intelligence Box</td><td>Rp 1.200.000</td><td>1.5 minggu</td></tr>
+        <tr><td><span class="tag">OSINT</span></td><td>Social Media Account Mapper</td><td>Rp 500.000</td><td>1 minggu</td></tr>
+        <tr><td><span class="tag">AI Vision</span></td><td>Face Recognition Intelligence Unit</td><td>Rp 1.500.000</td><td>2 minggu</td></tr>
+        <tr><td><span class="tag">Covert</span></td><td>GPS Tracker Realtime × 3 unit</td><td>Rp 1.800.000</td><td>1 minggu</td></tr>
+        <tr><td><span class="tag">Covert</span></td><td>Covert Audio Recorder × 3 unit</td><td>Rp 1.200.000</td><td>3 hari</td></tr>
+        <tr><td><span class="tag">Covert</span></td><td>LAN Network Tap (Passive MITM)</td><td>Rp 500.000</td><td>3 hari</td></tr>
+        <tr><td colspan="2"><strong>TOTAL</strong></td><td><strong>Rp 9.500.000</strong></td><td><strong>6–7 minggu</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CATEGORY 1: SIGINT -->
+  <div class="category-banner">
+    <span class="cat-icon">📡</span>
+    <h2>SIGINT / RF Intelligence Devices</h2>
+    <span class="cat-count">3 perangkat</span>
+  </div>
+
+  <!-- 1.1 -->
+  <div class="device-card">
+    <div class="device-header">
+      <span class="device-id">1.1</span>
+      <h3>Portable SDR Scanner</h3>
+    </div>
+    <div class="device-desc">
+      Perangkat portable untuk pemantauan spektrum frekuensi radio secara real-time. Ideal untuk operasi lapangan di mana operator perlu mendeteksi komunikasi aktif di area target. Unit ini dikemas dalam casing tahan benturan dan dapat beroperasi tanpa koneksi internet, berdaya dari baterai internal selama 8–12 jam penuh.
+    </div>
+    <div class="specs-grid">
+      <div class="spec-item">
+        <div class="spec-label">🔧 Hardware</div>
+        <div class="spec-value">RTL-SDR v3 + Raspberry Pi 4 (4GB RAM) + Touchscreen 7" + Baterai 10000mAh + Antena Telescopic</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">💻 Software</div>
+        <div class="spec-value">GNU Radio, GQRX, SDR#, custom Python spectrum logger & alert system</div>
+      </div>
+      <div class="spec-item full-width">
+        <div class="spec-label">⚙️ Fungsi Utama</div>
+        <div class="spec-value">Scan spektrum 500kHz–1.75GHz secara real-time • Logging frekuensi aktif beserta timestamp dan lokasi GPS • Deteksi sinyal baru secara otomatis dengan alert audio • Export log ke CSV/JSON untuk analisis lanjut</div>
+      </div>
+      <div class="spec-item full-width">
+        <div class="spec-label">🎯 Use Case Operasional</div>
+        <div class="spec-value">Monitoring komunikasi radio di area operasi • Deteksi keberadaan alat komunikasi ilegal atau tidak sah • Frequency mapping sebelum operasi lapangan • Deteksi drone berdasarkan frekuensi kontrol</div>
+      </div>
+    </div>
+    <div class="warning-bar"><span class="warn-icon">ℹ️</span> Unit ini bersifat PASSIVE — hanya mendengarkan, tidak memancarkan sinyal apapun. Legal untuk digunakan dalam operasi intelijen.</div>
+    <div class="device-footer">
+      <div class="stat"><div class="stat-label">Budget</div><div class="stat-value">Rp 1.500.000</div></div>
+      <div class="stat"><div class="stat-label">Waktu Build</div><div class="stat-value">1 Minggu</div></div>
+      <div class="stat"><div class="stat-label">Daya Tahan</div><div class="stat-value">8–12 Jam</div></div>
+      <div class="stat"><div class="stat-label">Coverage</div><div class="stat-value">500kHz–1.75GHz</div></div>
+    </div>
+  </div>
+
+  <!-- 1.2 -->
+  <div class="device-card">
+    <div class="device-header">
+      <span class="device-id">1.2</span>
+      <h3>Wideband SIGINT Unit</h3>
+    </div>
+    <div class="device-desc">
+      Versi lanjutan dari SDR Scanner dengan kemampuan TX/RX penuh menggunakan HackRF One. Cocok untuk analisis mendalam komunikasi target termasuk demodulasi sinyal terenkripsi lemah, frequency hopping detection, dan replay attack pada protokol yang tidak menggunakan challenge-response. Dilengkapi antena directional Yagi untuk range yang lebih jauh.
+    </div>
+    <div class="specs-grid">
+      <div class="spec-item">
+        <div class="spec-label">🔧 Hardware</div>
+        <div class="spec-value">HackRF One clone + Laptop / Mini PC + Antena Directional Yagi 14dBi + Case pelindung IP54</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">💻 Software</div>
+        <div class="spec-value">GNU Radio, GQRX, Universal Radio Hacker (URH), custom decoder scripts (Python)</div>
+      </div>
+      <div class="spec-item full-width">
+        <div class="spec-label">⚙️ Fungsi Utama</div>
+        <div class="spec-value">TX/RX coverage 1MHz–6GHz • Replay attack sinyal non-encrypted (remote, alarm, dsb) • Analisis modulasi AM/FM/FSK/PSK/OOK • Frequency hopping pattern detection • Rekaman dan playback sesi secara offline</div>
+      </div>
+      <div class="spec-item full-width">
+        <div class="spec-label">🎯 Use Case Operasional</div>
+        <div class="spec-value">Analisis mendalam komunikasi target • Testing keamanan perangkat komunikasi instansi • Intercept sinyal tidak terenkripsi dalam jarak jauh • Analisis protokol proprietary perangkat IoT target</div>
+      </div>
+    </div>
+    <div class="warning-bar"><span class="warn-icon">⚠️</span> Kemampuan TX hanya digunakan sesuai kewenangan dan legal basis instansi yang jelas.</div>
+    <div class="device-footer">
+      <div class="stat"><div class="stat-label">Budget</div><div class="stat-value">Rp 3.000.000</div></div>
+      <div class="stat"><div class="stat-label">Waktu Build</div><div class="stat-value">2 Minggu</div></div>
+      <div class="stat"><div class="stat-label">Coverage</div><div class="stat-value">1MHz–6GHz</div></div>
+      <div class="stat"><div class="stat-label">Range Antena</div><div class="stat-value">~2 km LoS</div></div>
+    </div>
+  </div>
+
+  <!-- 1.3 -->
+  <div class="device-card">
+    <div class="device-header">
+      <span class="device-id">1.3</span>
+      <h3>Direction Finding (DF) Unit</h3>
+    </div>
+    <div class="device-desc">
+      Sistem triangulasi untuk menentukan lokasi fisik sumber sinyal radio. Menggunakan array 4 antena yang diproses secara simultan untuk menghitung arah datangnya sinyal (bearing). Dengan dua atau lebih unit DF yang diposisikan berbeda, koordinat tepat pemancar dapat ditentukan secara akurat di atas peta.
+    </div>
+    <div class="specs-grid">
+      <div class="spec-item">
+        <div class="spec-label">🔧 Hardware</div>
+        <div class="spec-value">4× RTL-SDR + Raspberry Pi 4 + Antena array omnidirectional + GPS Neo-8M + Display 10" + Casing lapangan</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">💻 Software</div>
+        <div class="spec-value">Kraken SDR software, custom bearing calculator (Python), GPS mapping overlay (Leaflet.js lokal)</div>
+      </div>
+      <div class="spec-item full-width">
+        <div class="spec-label">⚙️ Fungsi Utama</div>
+        <div class="spec-value">Bearing calculation dari sumber sinyal dalam radius 5km • Triangulasi posisi dengan 2+ unit secara simultan • Visualisasi bearing dan estimasi lokasi di peta offline • Logging bearing history untuk analisis pola pergerakan pemancar</div>
+      </div>
+      <div class="spec-item full-width">
+        <div class="spec-label">🎯 Use Case Operasional</div>
+        <div class="spec-value">Lokalisasi sumber komunikasi ilegal / tidak sah • Tracking pemancar yang berpindah-pindah • Operasi counter-surveillance (deteksi bug/transmitter) • Hunting sinyal radio mencurigakan di area sensitif</div>
+      </div>
+    </div>
+    <div class="warning-bar"><span class="warn-icon">ℹ️</span> Akurasi optimal dalam radius 5km. Perlu kalibrasi lapangan sebelum deployment. Minimum 2 unit untuk triangulasi penuh.</div>
+    <div class="device-footer">
+      <div class="stat"><div class="stat-label">Budget</div><div class="stat-value">Rp 4.000.000</div></div>
+      <div class="stat"><div class="stat-label">Waktu Build</div><div class="stat-value">3–4 Minggu</div></div>
+      <div class="stat"><div class="stat-label">Akurasi</div><div class="stat-value">±5–10°</div></div>
+      <div class="stat"><div class="stat-label">Range</div><div class="stat-value">5 km radius</div></div>
+    </div>
+  </div>
+
+  <!-- CATEGORY 2: WIFI/BT -->
+  <div class="category-banner">
+    <span class="cat-icon">📶</span>
+    <h2>WiFi / Bluetooth Intelligence</h2>
+    <span class="cat-count">3 perangkat</span>
+  </div>
+
+  <!-- 2.1 -->
+  <div class="device-card">
+    <div class="device-header">
+      <span class="device-id">2.1</span>
+      <h3>Passive WiFi Probe Capture Unit</h3>
+    </div>
+    <div class="device-desc">
+      Unit kecil yang secara pasif menangkap WiFi probe request dari semua perangkat di sekitarnya. Setiap smartphone, laptop, dan perangkat IoT secara otomatis memancarkan probe request berisi daftar SSID yang pernah dikoneksikan — informasi ini digunakan untuk fingerprinting, tracking kehadiran, dan estimasi jumlah perangkat unik di lokasi.
+    </div>
+    <div class="specs-grid">
+      <div class="spec-item">
+        <div class="spec-label">🔧 Hardware</div>
+        <div class="spec-value">Raspberry Pi Zero 2W + Alfa AWUS036ACH + Baterai 10000mAh + MicroSD 64GB + Casing custom (form factor power bank)</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">💻 Software</div>
+        <div class="spec-value">Python/Scapy probe sniffer, SQLite database, custom analytics dashboard (Flask), CSV export</div>
+      </div>
+      <div class="spec-item full-width">
+        <div class="spec-label">⚙️ Fungsi Utama</div>
+        <div class="spec-value">Capture probe request tanpa mengirim paket apapun • Logging MAC address + SSID history + timestamp + RSSI + vendor lookup • Estimasi jumlah device unik per jam • Deteksi MAC randomization pattern • Korelasi kehadiran target berdasarkan MAC yang sudah diketahui</div>
+      </div>
+      <div class="spec-item full-width">
+        <div class="spec-label">🎯 Use Case Operasional</div>
+        <div class="spec-value">Konfirmasi kehadiran target di lokasi (jika MAC diketahui) • Intelligence crowd di area publik • Profiling jaringan WiFi yang sering dikunjungi target • Deteksi pola rutinitas lokasi target</div>
+      </div>
+    </div>
+    <div class="warning-bar"><span class="warn-icon">ℹ️</span> Sepenuhnya PASSIVE. Unit dapat disembunyikan sebagai power bank biasa. Tidak ada sinyal yang dipancarkan.</div>
+    <div class="device-footer">
+      <div class="stat"><div class="stat-label">Budget</div><div class="stat-value">Rp 800.000</div></div>
+      <div class="stat"><div class="stat-label">Waktu Build</div><div class="stat-value">3 Hari</div></div>
+      <div class="stat"><div class="stat-label">Daya Tahan</div><div class="stat-value">12–18 Jam</div></div>
+      <div class="stat"><div class="stat-label">Storage</div><div class="stat-value">64GB (~30 hari log)</div></div>
+    </div>
+  </div>
+
+  <!-- 2.2 -->
+  <div class="device-card">
+    <div class="device-header">
+      <span class="device-id">2.2</span>
+      <h3>WiFi Rogue AP + Credential Capture</h3>
+    </div>
+    <div class="device-desc">
+      Platform aktif untuk membuat access point palsu yang meniru jaringan WiFi target. Perangkat mengirim deauthentication frame untuk memutus koneksi target dari AP asli, kemudian menyediakan AP palsu dengan SSID identik. Target yang terhubung dapat diarahkan ke captive portal untuk credential capture atau seluruh traffic dianalisis secara MITM.
+    </div>
+    <div class="specs-grid">
+      <div class="spec-item">
+        <div class="spec-label">🔧 Hardware</div>
+        <div class="spec-value">Raspberry Pi 4 + 2× Alfa AWUS036ACH + Baterai 20000mAh + Antena gain tinggi 9dBi</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">💻 Software</div>
+        <div class="spec-value">Hostapd, dnsmasq, custom captive portal (Flask/Python), SSLstrip2, Bettercap, credential logger</div>
+      </div>
+      <div class="spec-item full-width">
+        <div class="spec-label">⚙️ Fungsi Utama</div>
+        <div class="spec-value">Deauth target dari AP legitimate • Hosting rogue AP dengan SSID + BSSID identik • Redirect semua HTTP traffic ke halaman login palsu yang menyerupai portal asli • Capture username/password plaintext • MITM analisis traffic untuk protokol unencrypted</div>
+      </div>
+      <div class="spec-item full-width">
+        <div class="spec-label">🎯 Use Case Operasional</div>
+        <div class="spec-value">Pengumpulan credential dalam operasi yang memiliki legal basis resmi • Security assessment jaringan WiFi instansi • Testing kesadaran keamanan personel • Capture session cookie dari aplikasi internal yang tidak menggunakan HTTPS</div>
+      </div>
+    </div>
+    <div class="warning-bar"><span class="warn-icon">⚠️</span> PERINGATAN: Hanya digunakan sesuai kewenangan resmi dan legal basis yang jelas. Penggunaan di luar konteks ini melanggar UU ITE Pasal 30–32.</div>
+    <div class="device-footer">
+      <div class="stat"><div class="stat-label">Budget</div><div class="stat-value">Rp 1.500.000</div></div>
+      <div class="stat"><div class="stat-label">Waktu Build</div><div class="stat-value">1 Minggu</div></div>
+      <div class="stat"><div class="stat-label">Range</div><div class="stat-value">~100m radius</div></div>
+      <div class="stat"><div class="stat-label">Mode</div><div class="stat-value">Active / MITM</div></div>
+    </div>
+  </div>
+
+  <!-- 2.3 -->
+  <div class="device-card">
+    <div class="device-header">
+      <span class="device-id">2.3</span>
+      <h3>Bluetooth / BLE Intelligence Scanner</h3>
+    </div>
+    <div class="device-desc">
+      Scanner khusus Bluetooth Classic dan BLE (Bluetooth Low Energy) untuk mendeteksi, mengidentifikasi, dan melacak perangkat di sekitar. BLE digunakan oleh ratusan kategori perangkat: smartwatch, TWS earbuds, fitness tracker, beacon, laptop, tablet, dan berbagai sensor IoT — semua dapat di-fingerprint dan dilacak.
+    </div>
+    <div class="specs-grid">
+      <div class="spec-item">
+        <div class="spec-label">🔧 Hardware</div>
+        <div class="spec-value">Raspberry Pi 4 + Ubertooth One (Bluetooth sniffer) + Antena directional 2.4GHz</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">💻 Software</div>
+        <div class="spec-value">Ubertooth tools, BlueHydra, custom BLE advertisement parser (Python), device database lookup</div>
+      </div>
+      <div class="spec-item full-width">
+        <div class="spec-label">⚙️ Fungsi Utama</div>
+        <div class="spec-value">Passive BLE advertisement capture tanpa pairing • Device fingerprinting via MAC + device name + service UUIDs + manufacturer data • RSSI-based proximity estimation (±1-3 meter) • Logging perangkat unik dengan timeline kehadiran</div>
+      </div>
+      <div class="spec-item full-width">
+        <div class="spec-label">🎯 Use Case Operasional</div>
+        <div class="spec-value">Tracking target berdasarkan perangkat BLE yang dikenali • Deteksi AirTag / covert BLE tracker di kendaraan atau objek • Mapping jaringan perangkat di area target (IoT profiling) • Korelasi kehadiran target berdasarkan earbuds/smartwatch signature</div>
+      </div>
+    </div>
+    <div class="warning-bar"><span class="warn-icon">ℹ️</span> iOS dan Android modern menggunakan BLE MAC randomization. Fingerprinting lanjutan menggunakan kombinasi manufacturer data + service UUID untuk tracking lebih akurat.</div>
+    <div class="device-footer">
+      <div class="stat"><div class="stat-label">Budget</div><div class="stat-value">Rp 1.500.000</div></div>
+      <div class="stat"><div class="stat-label">Waktu Build</div><div class="stat-value">1 Minggu</div></div>
+      <div class="stat"><div class="stat-label">Range</div><div class="stat-value">~50m (open)</div></div>
+      <div class="stat"><div class="stat-label">Mode</div><div class="stat-value">Passive</div></div>
+    </div>
+  </div>
+
+  <!-- CATEGORY 3: IoT -->
+  <div class="category-banner">
+    <span class="cat-icon">🏠</span>
+    <h2>IoT Assessment & RF Replay Tools</h2>
+    <span class="cat-count">3 perangkat</span>
+  </div>
+
+  <!-- 3.1 -->
+  <div class="device-card">
+    <div class="device-header"><span class="device-id">3.1</span><h3>Zigbee / Z-Wave Protocol Sniffer</h3></div>
+    <div class="device-desc">Alat untuk monitoring dan analisis komunikasi perangkat smart home yang menggunakan protokol Zigbee (2.4GHz) dan Z-Wave (868/915MHz). Semakin banyak gedung perkantoran modern, hotel, dan perumahan premium menggunakan protokol ini untuk smart lock, sensor gerak, kamera, dan sistem otomasi — semua dapat dianalisis dan dalam kondisi tertentu dimanipulasi.</div>
+    <div class="specs-grid">
+      <div class="spec-item"><div class="spec-label">🔧 Hardware</div><div class="spec-value">CC2531 USB dongle (Zigbee sniffer) + CC1352P (Zigbee/Z-Wave dual band) + Laptop</div></div>
+      <div class="spec-item"><div class="spec-label">💻 Software</div><div class="spec-value">Zigbee2MQTT, Wireshark dengan Zigbee dissector, Z-Wave JS, custom packet analyzer</div></div>
+      <div class="spec-item full-width"><div class="spec-label">⚙️ Fungsi Utama</div><div class="spec-value">Capture dan decode traffic Zigbee/Z-Wave secara real-time • Analisis command (lock/unlock, on/off, sensor trigger) • Identifikasi semua perangkat dalam jaringan Zigbee • Replay command untuk perangkat tanpa enkripsi</div></div>
+      <div class="spec-item full-width"><div class="spec-label">🎯 Use Case Operasional</div><div class="spec-value">Security assessment gedung target (smart lock, access control) • Analisis sensor alarm Zigbee • Mapping dan profiling seluruh ekosistem smart home target • Testing vulnerability sebelum physical entry</div></div>
+    </div>
+    <div class="warning-bar"><span class="warn-icon">ℹ️</span> Harga hardware sangat terjangkau. Zigbee mesh banyak digunakan di smart building Indonesia kelas menengah ke atas.</div>
+    <div class="device-footer">
+      <div class="stat"><div class="stat-label">Budget</div><div class="stat-value">Rp 300.000</div></div>
+      <div class="stat"><div class="stat-label">Waktu Build</div><div class="stat-value">2 Hari</div></div>
+      <div class="stat"><div class="stat-label">Protokol</div><div class="stat-value">Zigbee + Z-Wave</div></div>
+      <div class="stat"><div class="stat-label">Range</div><div class="stat-value">10–100m mesh</div></div>
+    </div>
+  </div>
+
+  <!-- 3.2 -->
+  <div class="device-card">
+    <div class="device-header"><span class="device-id">3.2</span><h3>Universal RF Replay Device</h3></div>
+    <div class="device-desc">Perangkat serba guna berukuran kotak rokok untuk capture dan replay sinyal RF pada frekuensi 315/433/868MHz. Frekuensi-frekuensi ini digunakan oleh remote gate, remote alarm, kunci mobil generasi lama, remote AC, dan ratusan perangkat consumer wireless lainnya. Dilengkapi display OLED untuk feedback real-time dan baterai LiPo internal.</div>
+    <div class="specs-grid">
+      <div class="spec-item"><div class="spec-label">🔧 Hardware</div><div class="spec-value">CC1101 transceiver module + ESP32 (controller) + OLED display 0.96" + Baterai LiPo 1000mAh + PCB custom + casing 3D print</div></div>
+      <div class="spec-item"><div class="spec-label">💻 Software</div><div class="spec-value">Custom Arduino/ESP32 firmware: frekuensi scanner, raw capture, replay mode, signal analyzer, demodulator OOK/ASK/FSK</div></div>
+      <div class="spec-item full-width"><div class="spec-label">⚙️ Fungsi Utama</div><div class="spec-value">Scan dan capture sinyal RF secara otomatis • Decode modulasi OOK/ASK/FSK • Simpan hingga 100 sinyal ke flash memory • Replay sinyal dengan tombol fisik • Brute-force rolling code sederhana (untuk kode tetap/fixed code)</div></div>
+      <div class="spec-item full-width"><div class="spec-label">🎯 Use Case Operasional</div><div class="spec-value">Akses fisik ke area dalam operasi yang diotorisasi (gate, garasi) • Testing keamanan sistem access control berbasis RF • Vehicle assessment (kunci non-rolling-code) • Clone remote alarm atau sensor tanpa merusak perangkat asli</div></div>
+    </div>
+    <div class="warning-bar"><span class="warn-icon">ℹ️</span> Unit sebesar kotak rokok — mudah disembunyikan. Bisa dikembangkan lebih lanjut dengan Flipper Zero-style firmware.</div>
+    <div class="device-footer">
+      <div class="stat"><div class="stat-label">Budget</div><div class="stat-value">Rp 500.000</div></div>
+      <div class="stat"><div class="stat-label">Waktu Build</div><div class="stat-value">3 Hari</div></div>
+      <div class="stat"><div class="stat-label">Frekuensi</div><div class="stat-value">300–928MHz</div></div>
+      <div class="stat"><div class="stat-label">Daya Tahan</div><div class="stat-value">~24 jam</div></div>
+    </div>
+  </div>
+
+  <!-- 3.3 -->
+  <div class="device-card">
+    <div class="device-header"><span class="device-id">3.3</span><h3>IP Camera Scanner & Assessment Box</h3></div>
+    <div class="device-desc">Appliance yang melakukan discovery otomatis seluruh kamera IP dalam jaringan target, mengidentifikasi merk/model/firmware, kemudian mencoba default credential dan known CVE secara otomatis. Output berupa laporan komprehensif termasuk feed kamera yang berhasil diakses — dilengkapi screenshot otomatis sebagai evidence.</div>
+    <div class="specs-grid">
+      <div class="spec-item"><div class="spec-label">🔧 Hardware</div><div class="spec-value">Raspberry Pi 4 / Mini PC + Ethernet adapter + WiFi adapter (dual band)</div></div>
+      <div class="spec-item"><div class="spec-label">💻 Software</div><div class="spec-value">Masscan, Nmap (RTSP/HTTP scanning), custom default credential database 500+ merk, Metasploit IP cam modules, screenshot capture (ffmpeg)</div></div>
+      <div class="spec-item full-width"><div class="spec-label">⚙️ Fungsi Utama</div><div class="spec-value">Network discovery semua kamera IP di subnet • Fingerprinting merk, model, versi firmware • Credential brute force menggunakan database default password 500+ merk populer • Exploit CVE kamera dengan Metasploit modules • Auto-screenshot feed kamera yang berhasil diakses • Generate laporan HTML dengan evidence</div></div>
+      <div class="spec-item full-width"><div class="spec-label">🎯 Use Case Operasional</div><div class="spec-value">Physical security assessment gedung target • Mapping blind spot dari feed kamera yang bisa diakses • Evidence gathering aktivitas target via CCTV • Menemukan kamera tersembunyi di jaringan yang tidak terdaftar secara resmi</div></div>
+    </div>
+    <div class="warning-bar"><span class="warn-icon">ℹ️</span> Database default credential mencakup 500+ merk kamera populer di Indonesia (Hikvision, Dahua, Hanwha, Axis, CP-Plus, dll).</div>
+    <div class="device-footer">
+      <div class="stat"><div class="stat-label">Budget</div><div class="stat-value">Rp 600.000</div></div>
+      <div class="stat"><div class="stat-label">Waktu Build</div><div class="stat-value">1 Minggu</div></div>
+      <div class="stat"><div class="stat-label">DB Coverage</div><div class="stat-value">500+ merk</div></div>
+      <div class="stat"><div class="stat-label">Output</div><div class="stat-value">Laporan + Screenshot</div></div>
+    </div>
+  </div>
+
+  <!-- CATEGORY 4: OSINT -->
+  <div class="category-banner">
+    <span class="cat-icon">🔍</span>
+    <h2>OSINT & Data Intelligence</h2>
+    <span class="cat-count">3 perangkat</span>
+  </div>
+
+  <!-- 4.1 -->
+  <div class="device-card">
+    <div class="device-header"><span class="device-id">4.1</span><h3>Phone Number Intelligence Box</h3></div>
+    <div class="device-desc">Appliance OSINT yang menerima satu atau lebih nomor HP sebagai input dan menghasilkan profil lengkap target dari puluhan sumber terbuka secara otomatis. Antarmuka dashboard web lokal memungkinkan operator non-teknis menggunakannya langsung dari browser tanpa pengetahuan coding apapun.</div>
+    <div class="specs-grid">
+      <div class="spec-item"><div class="spec-label">🔧 Hardware</div><div class="spec-value">Mini PC (Intel N100, 8GB RAM) atau Raspberry Pi 4 + SSD 256GB + Display atau akses via browser jaringan lokal</div></div>
+      <div class="spec-item"><div class="spec-label">💻 Software</div><div class="spec-value">Custom Python aggregator: Truecaller API, GetContact scrape, Telegram reverse lookup, breach database (HaveIBeenPwned + lokal), social media cross-reference, Flask dashboard, export PDF</div></div>
+      <div class="spec-item full-width"><div class="spec-label">⚙️ Fungsi Utama</div><div class="spec-value">Input nomor HP → output: nama pemilik, foto profil, semua akun medsos terhubung (IG/FB/TikTok/Telegram/WA), riwayat breach dan data leak, nomor alternatif yang pernah digunakan, lokasi registrasi operator, analisis jaringan kontak • Batch processing: masukkan ratusan nomor sekaligus</div></div>
+      <div class="spec-item full-width"><div class="spec-label">🎯 Use Case Operasional</div><div class="spec-value">Identifikasi cepat target dari nomor HP yang diperoleh di lapangan • Mapping jaringan komunikasi target (siapa menghubungi siapa) • Verifikasi identitas informan atau tersangka • Persiapan profil lengkap sebelum operasi lapangan</div></div>
+    </div>
+    <div class="warning-bar"><span class="warn-icon">ℹ️</span> Semua query via API dan scraping sumber terbuka. Tidak menyentuh infrastruktur operator telekomunikasi. Dapat dioperasikan offline setelah setup awal.</div>
+    <div class="device-footer">
+      <div class="stat"><div class="stat-label">Budget</div><div class="stat-value">Rp 1.200.000</div></div>
+      <div class="stat"><div class="stat-label">Waktu Build</div><div class="stat-value">1.5 Minggu</div></div>
+      <div class="stat"><div class="stat-label">Sumber Data</div><div class="stat-value">15+ platform</div></div>
+      <div class="stat"><div class="stat-label">Output</div><div class="stat-value">Profil + PDF Report</div></div>
+    </div>
+  </div>
+
+  <!-- 4.2 -->
+  <div class="device-card">
+    <div class="device-header"><span class="device-id">4.2</span><h3>Social Media Account Mapper</h3></div>
+    <div class="device-desc">Tool automasi untuk mapping semua akun media sosial yang terhubung ke satu identitas. Menggunakan teknik cross-platform correlation untuk menemukan akun dengan identitas berbeda namun dapat dikaitkan berdasarkan pola penulisan, konten, foto profil, waktu posting, dan koneksi bersama. Output berupa graf relasi interaktif.</div>
+    <div class="specs-grid">
+      <div class="spec-item"><div class="spec-label">🔧 Hardware</div><div class="spec-value">Laptop / Mini PC (software-heavy, hardware minimal)</div></div>
+      <div class="spec-item"><div class="spec-label">💻 Software</div><div class="spec-value">Sherlock, Maigret, custom scraper IG/FB/TikTok/Telegram/X/LinkedIn, graph viz D3.js atau Maltego CE, NLP fingerprint matching</div></div>
+      <div class="spec-item full-width"><div class="spec-label">⚙️ Fungsi Utama</div><div class="spec-value">Username/nomor/email → semua akun aktif di 50+ platform • Analisis koneksi antar akun (teman bersama, tag bersama) • Export graf relasi interaktif untuk presentasi • Monitoring otomatis akun secara berkala (alert jika ada postingan baru) • Archive konten medsos target sebelum di-delete</div></div>
+      <div class="spec-item full-width"><div class="spec-label">🎯 Use Case Operasional</div><div class="spec-value">Mapping lengkap jejak digital target • Persiapan takedown request ke platform (butuh evidence akun terhubung) • Evidence gathering aktivitas online target • Identifikasi akun anonim yang terhubung ke target</div></div>
+    </div>
+    <div class="warning-bar"><span class="warn-icon">ℹ️</span> Visualisasi graf memudahkan presentasi kepada pimpinan non-teknis. Graf dapat diekspor sebagai PNG atau PDF.</div>
+    <div class="device-footer">
+      <div class="stat"><div class="stat-label">Budget</div><div class="stat-value">Rp 500.000</div></div>
+      <div class="stat"><div class="stat-label">Waktu Build</div><div class="stat-value">1 Minggu</div></div>
+      <div class="stat"><div class="stat-label">Coverage</div><div class="stat-value">50+ platform</div></div>
+      <div class="stat"><div class="stat-label">Output</div><div class="stat-value">Graf Relasi Interaktif</div></div>
+    </div>
+  </div>
+
+  <!-- 4.3 -->
+  <div class="device-card">
+    <div class="device-header"><span class="device-id">4.3</span><h3>Face Recognition Intelligence Unit</h3></div>
+    <div class="device-desc">Unit berbasis deep learning untuk face matching — mencocokkan wajah dari foto/video dengan database lokal yang sudah di-enroll. Dapat digunakan untuk identifikasi real-time melalui kamera langsung, analisis foto offline dari berbagai sumber (OSINT, CCTV screenshot), dan verifikasi identitas lapangan. Model berjalan fully offline tanpa cloud.</div>
+    <div class="specs-grid">
+      <div class="spec-item"><div class="spec-label">🔧 Hardware</div><div class="spec-value">Raspberry Pi 4 (8GB) / Mini PC + Kamera 8MP / USB cam 1080p + SSD untuk model & database wajah + Display 7"</div></div>
+      <div class="spec-item"><div class="spec-label">💻 Software</div><div class="spec-value">InsightFace (ArcFace model) / DeepFace, custom enrollment pipeline, SQLite face vector database, Flask dashboard real-time, alert system</div></div>
+      <div class="spec-item full-width"><div class="spec-label">⚙️ Fungsi Utama</div><div class="spec-value">Enrollment foto wajah ke database lokal (1 foto cukup untuk enroll) • Face matching dari foto / video / live stream kamera • Output: confidence score % + identitas terdaftar + waktu deteksi • Logging semua deteksi dengan screenshot otomatis • Bulk enrollment dari folder foto OSINT</div></div>
+      <div class="spec-item full-width"><div class="spec-label">🎯 Use Case Operasional</div><div class="spec-value">Identifikasi individu dari foto OSINT atau screenshot CCTV • Verifikasi identitas lapangan secara real-time • Monitoring kehadiran target di titik tertentu • Matching wajah dari rekaman video ke database tersangka</div></div>
+    </div>
+    <div class="warning-bar"><span class="warn-icon">ℹ️</span> Akurasi InsightFace ArcFace >99.4% pada LFW benchmark. Performa lapangan sangat bergantung kualitas foto source. Berjalan fully offline — tidak ada data keluar ke cloud.</div>
+    <div class="device-footer">
+      <div class="stat"><div class="stat-label">Budget</div><div class="stat-value">Rp 1.500.000</div></div>
+      <div class="stat"><div class="stat-label">Waktu Build</div><div class="stat-value">2 Minggu</div></div>
+      <div class="stat"><div class="stat-label">Akurasi</div><div class="stat-value">>99% (benchmark)</div></div>
+      <div class="stat"><div class="stat-label">Mode</div><div class="stat-value">Fully Offline</div></div>
+    </div>
+  </div>
+
+  <!-- CATEGORY 5: COVERT -->
+  <div class="category-banner">
+    <span class="cat-icon">🕵️</span>
+    <h2>Covert Collection Devices</h2>
+    <span class="cat-count">3 perangkat</span>
+  </div>
+
+  <!-- 5.1 -->
+  <div class="device-card">
+    <div class="device-header"><span class="device-id">5.1</span><h3>Covert Audio Recorder (Voice Activated)</h3></div>
+    <div class="device-desc">Perangkat perekam audio ultra-compact berbasis ESP32-S3 dengan Voice Activity Detection (VAD) otomatis. Hanya merekam saat terdeteksi suara di atas threshold yang dapat dikonfigurasi — menghemat storage dan memudahkan review. Form factor fleksibel: dapat menyerupai adaptor charger USB, kancing jaket, atau objek sehari-hari lainnya.</div>
+    <div class="specs-grid">
+      <div class="spec-item"><div class="spec-label">🔧 Hardware</div><div class="spec-value">ESP32-S3 + MEMS microphone INMP441 (I2S) + MicroSD slot + Baterai LiPo 500mAh + Casing custom 3D-print</div></div>
+      <div class="spec-item"><div class="spec-label">💻 Software</div><div class="spec-value">Custom ESP32 firmware: VAD threshold configurable, MP3/WAV encoder, timestamp per sesi, WiFi upload mode (opsional saat dalam jangkauan AP yang dikenal)</div></div>
+      <div class="spec-item full-width"><div class="spec-label">⚙️ Fungsi Utama</div><div class="spec-value">Voice-activated recording (hemat daya & storage) • Continuous mode untuk rekaman tanpa henti • Timestamp akurat per sesi rekaman • Kualitas audio 16kHz/24bit (cukup untuk speech intelligibility) • WiFi silent upload ke server saat dalam jangkauan (opsional) • LED status tersembunyi di dalam casing</div></div>
+      <div class="spec-item full-width"><div class="spec-label">🎯 Use Case Operasional</div><div class="spec-value">Rekaman meeting/pertemuan target dalam operasi yang diotorisasi • Monitoring ruangan jangka panjang • Dokumentasi bukti percakapan • Deploy di kendaraan target dengan daya dari USB port</div></div>
+    </div>
+    <div class="warning-bar"><span class="warn-icon">ℹ️</span> Daya tahan 48–72 jam dalam triggered/VAD mode. Form factor casing dapat dikustomisasi sesuai kebutuhan operasi. Produksi per-unit dalam 1 hari setelah PCB tersedia.</div>
+    <div class="device-footer">
+      <div class="stat"><div class="stat-label">Budget / unit</div><div class="stat-value">Rp 400.000</div></div>
+      <div class="stat"><div class="stat-label">Waktu Build</div><div class="stat-value">3 Hari</div></div>
+      <div class="stat"><div class="stat-label">Daya Tahan</div><div class="stat-value">48–72 jam (VAD)</div></div>
+      <div class="stat"><div class="stat-label">Storage</div><div class="stat-value">MicroSD hingga 128GB</div></div>
+    </div>
+  </div>
+
+  <!-- 5.2 -->
+  <div class="device-card">
+    <div class="device-header"><span class="device-id">5.2</span><h3>Covert GPS Tracker (Realtime 4G LTE)</h3></div>
+    <div class="device-desc">GPS tracker compact dengan transmisi realtime via jaringan seluler 4G LTE. Dilengkapi magnet neodimium kuat untuk pemasangan cepat di bawah kendaraan, tahan air IP67, dan sleep mode agresif untuk menghemat daya. Dashboard web menampilkan peta pergerakan realtime dengan riwayat 30 hari dan geofence alert otomatis.</div>
+    <div class="specs-grid">
+      <div class="spec-item"><div class="spec-label">🔧 Hardware</div><div class="spec-value">SIM7600 (4G LTE Cat-1) + GPS Neo-8M + ESP32 + Baterai LiPo 3000mAh + Casing waterproof IP67 + Magnet neodimium N52</div></div>
+      <div class="spec-item"><div class="spec-label">💻 Software</div><div class="spec-value">Custom firmware ESP32: MQTT reporting (interval configurable 10s–1jam), geofence engine, sleep mode otomatis saat idle, OTA update • Web dashboard: Leaflet.js, track history, geofence config, Telegram bot alert</div></div>
+      <div class="spec-item full-width"><div class="spec-label">⚙️ Fungsi Utama</div><div class="spec-value">GPS realtime dengan akurasi 2–3 meter • Laporan posisi via MQTT/HTTPS ke server atau Telegram bot • Geofence alert: notifikasi saat target keluar/masuk area yang ditentukan • Riwayat perjalanan 30 hari dengan visualisasi polyline • Sleep mode otomatis saat kendaraan diam (hemat daya 10x) • Log kecepatan dan heading</div></div>
+      <div class="spec-item full-width"><div class="spec-label">🎯 Use Case Operasional</div><div class="spec-value">Surveillance kendaraan target jangka panjang • Tracking pergerakan aset instansi • Monitoring operatif lapangan (friendly tracking) • Bukti pergerakan target untuk keperluan hukum</div></div>
+    </div>
+    <div class="warning-bar"><span class="warn-icon">ℹ️</span> Daya tahan 7–14 hari bergantung interval reporting. IP67 tahan air dan debu. Ukuran akhir: ~8×5×3 cm. SIM card prabayar cukup untuk biaya data.</div>
+    <div class="device-footer">
+      <div class="stat"><div class="stat-label">Budget / unit</div><div class="stat-value">Rp 600.000</div></div>
+      <div class="stat"><div class="stat-label">Waktu Build</div><div class="stat-value">1 Minggu</div></div>
+      <div class="stat"><div class="stat-label">Daya Tahan</div><div class="stat-value">7–14 hari</div></div>
+      <div class="stat"><div class="stat-label">Akurasi GPS</div><div class="stat-value">2–3 meter</div></div>
+    </div>
+  </div>
+
+  <!-- 5.3 -->
+  <div class="device-card">
+    <div class="device-header"><span class="device-id">5.3</span><h3>Covert LAN Network Tap (Passive MITM)</h3></div>
+    <div class="device-desc">Perangkat inline berukuran sangat kecil yang disisipkan di antara kabel LAN dan perangkat target. Sepenuhnya transparan bagi jaringan — tidak mengubah traffic maupun MAC address, hanya menduplikasi semua paket untuk dianalisis. Dapat berjalan dari power over ethernet (PoE) atau baterai mini sehingga tidak memerlukan sumber listrik tambahan yang mencurigakan.</div>
+    <div class="specs-grid">
+      <div class="spec-item"><div class="spec-label">🔧 Hardware</div><div class="spec-value">Raspberry Pi Zero 2W + 2× USB-Ethernet adapter (bridge mode) + MicroSD 128GB + Baterai mini 2000mAh (opsional PoE splitter)</div></div>
+      <div class="spec-item"><div class="spec-label">💻 Software</div><div class="spec-value">Linux bridge mode (fully transparent), tcpdump background capture, custom parser: HTTP/FTP/Telnet/POP3/SMTP/DNS credential extractor, file reconstruction, auto-highlight suspicious traffic</div></div>
+      <div class="spec-item full-width"><div class="spec-label">⚙️ Fungsi Utama</div><div class="spec-value">Passive packet capture 100% inline dan transparan • Auto-extract credential dari protokol tidak terenkripsi: HTTP basic auth, FTP login, Telnet session, POP3/SMTP email • DNS query logging lengkap (mapping domain yang dikunjungi) • Rekonstruksi file yang ditransfer via FTP/HTTP • Deteksi dan flagging traffic mencurigakan (C2, tunneling, dll) • Dump storage otomatis ke MicroSD setiap 1 jam</div></div>
+      <div class="spec-item full-width"><div class="spec-label">🎯 Use Case Operasional</div><div class="spec-value">Monitoring internal network instansi target • Capture credential legacy system yang tidak menggunakan HTTPS/SFTP • DNS-based activity mapping (siapa mengakses apa) • Evidence gathering aktivitas jaringan target • Monitoring printer / IoT device di jaringan target</div></div>
+    </div>
+    <div class="warning-bar"><span class="warn-icon">ℹ️</span> Ukuran perangkat jadi: ~6×4×2 cm. Bisa dipasang di balik patch panel, di dalam stop kontak palsu, atau di bundel kabel. Tidak terdeteksi oleh network scanner standar.</div>
+    <div class="device-footer">
+      <div class="stat"><div class="stat-label">Budget</div><div class="stat-value">Rp 500.000</div></div>
+      <div class="stat"><div class="stat-label">Waktu Build</div><div class="stat-value">3 Hari</div></div>
+      <div class="stat"><div class="stat-label">Kecepatan</div><div class="stat-value">100Mbps bridge</div></div>
+      <div class="stat"><div class="stat-label">Storage</div><div class="stat-value">128GB (~30 hari capture)</div></div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<div class="page-footer">
+  <strong>DOKUMEN TERBATAS</strong> — Robotsoft / Blue Dragon Security<br>
+  <a href="https://bluedragonsec.com">bluedragonsec.com</a> | 2026
+</div>
+
+</body>
+</html>
