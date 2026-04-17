@@ -1,0 +1,257 @@
+Alamat Tertinggi (High)
+┌──────────────────────────────────────┐ 0xFFFFFFFFFFFFFFFF
+│                                      │
+│             KERNEL SPACE             │
+│                                      │
+│   ┌──────────────────────────────┐   │
+│   │    Kernel Text (.text)       │   │ ← Kode kernel utama (LKM Base)
+│   │ (~ 0xFFFFFFFF80000000)       │   │
+│   ├──────────────────────────────┤   │
+│   │  Kernel Data (.bss, .data)   │   │ ← Variabel global & statis
+│   ├──────────────────────────────┤   │
+│   │       Kernel Modules         │   │ ← Driver yang di-load (LKM)
+│   │ (~ 0xFFFFFFFFA0000000)       │   │
+│   ├──────────────────────────────┤   │
+│   │        Kernel Stack          │   │ ← Stack per thread/proses kernel
+│   ├──────────────────────────────┤   │
+│   │    vmalloc / ioremap space   │   │ ← Alokasi virtual dinamis
+│   │ (~ 0xFFFFC90000000000)       │   │
+│   ├──────────────────────────────┤   │
+│   │   Physical Memory Mapping    │   │ ← Direct map seluruh RAM fisik
+│   │ (0xFFFF888000000000)         │   │
+│   └──────────────────────────────┘   │
+│                                      │
+└──────────────────────────────────────┘ 0xFFFF800000000000
+Alamat Terendah (Low)
+
+
+
+0xFFFFFFFFFFFFFFFF (16 Exabytes - batas teoritis)
+┌──────────────────────────────────────┐
+│         Canonical Hole               │ <<< Area tidak valid
+├──────────────────────────────────────┤ 0x00007FFFFFFFFFFF (128 TB)
+│                                      │
+│         USER SPACE                   │
+│    (0x0000000000000000 - 0x00007FFFFFFFFFFF) │
+│                                      │
+│    ┌──────────────────────────────┐  │
+│    │         Stack                │  │ ← Tumbuh ke bawah
+│    │    (randomized)              │  │
+│    ├──────────────────────────────┤  │
+│    │                              │  │
+│    │            ↓                 │  │
+│    │                              │  │
+│    ├──────────────────────────────┤  │
+│    │         Memory Mapping       │  │ ← Libraries, mmap files
+│    │    (shared libraries,        │  │
+│    │     files mapped to memory)  │  │
+│    ├──────────────────────────────┤  │
+│    │            ↑                 │  │
+│    │            Heap              │  │ ← Tumbuh ke atas
+│    ├──────────────────────────────┤  │
+│    │         BSS Segment          │  │ ← Uninitialized data
+│    ├──────────────────────────────┤  │
+│    │         Data Segment         │  │ ← Initialized data
+│    ├──────────────────────────────┤  │
+│    │         Text Segment         │  │ ← Kode program (.text)
+│    └──────────────────────────────┘  │
+├──────────────────────────────────────┤ 0x0000000000000000
+│         Hole/Non-Canonical           │
+├──────────────────────────────────────┤ 0xFFFF800000000000
+│                                      │
+│         KERNEL SPACE                 │
+│(0xFFFF800000000000 - 0xFFFFFFFFFFFFFFFF) │
+│                                      │
+│    ┌──────────────────────────────┐  │
+│    │    vmalloc/ioremap space     │  │ ← Memory virtual dinamis
+│    ├──────────────────────────────┤  │
+│    │     Kernel Modules           │  │ ← Kode kernel module
+│    ├──────────────────────────────┤  │
+│    │      Kernel Stack            │  │ ← Stack per thread kernel
+│    ├──────────────────────────────┤  │
+│    │   Kernel Data (.bss, .data)  │  │ ← Data kernel
+│    ├──────────────────────────────┤  │
+│    │   Kernel Text (.text)        │  │ ← Kode kernel
+│    ├──────────────────────────────┤  │
+│    │   Physical Memory Mapping    │  │ ← Direct map RAM fisik
+│    │  (0xFFFF880000000000)        │  │
+│    └──────────────────────────────┘  │
+└──────────────────────────────────────┘
+0xFFFFFFFFFFFFFFFF
+
+
+
+=================================================================================================================================================
+
+
+Proteksi eksploitasi pada linux kernel 6 - 64 bit dan cara bypass proteksi 
+	- Teknik untuk bypass KASLR di linux kernel 6 - 64 bit
+		1. Bypass KASLR dengan function pointer leak
+		2. Bypass KASLR dengan side channel attacks (EntryBleed)
+		3. Bypass KASLR dengan Prefetch Side-channel
+		4. Bypass KASLR dengan Branch Target Buffer (BTB) Collision (Spectre-v2 Variant)
+		5. Bypass KASLR via Keyring Subsystem
+	- Teknik untuk bypass SMEP di linux kernel 6 - 64 bit
+		1. Bypass SMEP dengan Full In-Kernel ROP Chain
+		2. Bypass SMEP dengan Dirty Pagetable (Dirty Pagedirectory)
+	- Teknik untuk bypass SMAP di linux kernel 6 - 64 bit
+		1. Bypass SMAP dengan Manipulasi EFLAGS (STAC Instruction)
+		2. Bypass SMAP dengan Kernel-to-Kernel Copy
+		3. Bypass SMAP dengan Cred Overwrite Attack
+	- Teknik untuk bypass KPTI di linux kernel 6 - 64 bit
+		1. Bypass KTPI dengan Microarchitectural Side-Channel Attacks (Retbleed)
+		2. Bypass KPTI dengan Exploiting Shadow Address Space (KPTI Trampoline Attack & EntryBleed)
+		3. Bypass KPTI dengan Melakukan Modifikasi pada CR3
+		4. Bypass KPTI dengan PCID (Process-Context Identifiers) Leakage 
+		5. Bypass KPTI dengan srop
+	- Teknik untuk bypass Control Flow Integrity di linux kernel 6 - 64 bit
+		1. Bypass CFI dengan Data-Only Attacks
+		2. Bypass FineIBT dengan "I-Call" Hash Collision
+		3. Bypass CFI dengan Indirect Call Target Rebranding
+		4. Bypass FineIBT dengan memanfaatkan instruksi ENDBR64
+	- Teknik untuk bypass Hardening Allocator di linux kernel 6 - 64 bit
+		1. Bypass kfence dengan	heap grooming
+		2. Bypass slub stick dengan Cross-cache Attacks
+		3. Bypass hardening allocator dengan Dirty Pagetable
+		4. Bypass hardening allocator dengan PUD Entry Overwrite
+		5. Bypass dengan Elastic Objects Attack
+		6. Bypass via SLAB_TYPESAFE_BY_RCU
+		7. Bypass dengan MSG_MSG Segmentation
+		8. Bypass via Cross-Thread Credential Spraying
+	-  Teknik untuk bypass Proteksi Stack di linux kernel 6 - 64 bit
+		1. Bypass stack canary dengan Arbitrary Read pada task_struct untuk membaca stack_canary milik proses yang sedang berjalan
+		2. Bypass shadow stack dengan jop 
+		3. Bypass shadow stack dengan cop
+		4. Bypass vmap_stack dengan stack pivot
+		5. Bypass shadow stack dengan Signal Context Manipulation
+
+=================================================================================================================================================
+
+
+Linux kernel 6-64 bit exploitation strategy : 
+graph TD
+    A[Vulnerability: UAF/OOB] --> B{Bypass KASLR}
+    B -->|EntryBleed / Keyring Leak| C[Kernel Base Found]
+    C --> D[Heap Grooming: Cross-Thread Spray]
+    D --> E{Choose Path}
+    E -->|Data-Only| F[Cred Overwrite / Dirty Cred]
+    E -->|Code Execution| G[Dirty Pagetable / ROP]
+    G --> H[Bypass SMEP/SMAP/CFI]
+    F --> I[ROOT ACCESS]
+    H --> I
+    I --> J[Shadow Stack Cleanup: Signal Manipulation]
+
+=================================================================================================================================================
+
+
+Contoh Strategi Exploitasi Linux Kernel 6 :
+
+
+Tahap 1: Information Leak (Bypass KASLR)
+Sebelum melakukan apapun, penyerang harus tahu di mana posisi kernel di memori.
+Teknik Utama: EntryBleed atau Keyring Subsystem leak.
+Hasil: Mendapatkan $kernel_base. Tanpa ini, ROP chain atau manipulasi data akan "buta".
+
+Tahap 2: Heap Grooming & Spraying (Bypass Hardening Allocator)
+Menyiapkan "medan perang" di memori agar objek yang rentan berada di posisi yang menguntungkan.
+Teknik Utama: Cross-Thread Credential Spraying atau MSG_MSG Segmentation.
+Hasil: Mengontrol tata letak memori (deterministic heap layout).
+
+Tahap 3: Gaining Primitives (Arbitrary Read/Write)
+Memanfaatkan bug (misalnya UAF atau OOB) untuk mendapatkan kemampuan membaca atau menulis di mana saja.
+Teknik Utama: Elastic Objects Attack atau SLAB_TYPESAFE_BY_RCU.
+Hasil: Kemampuan untuk memodifikasi struktur data kernel.
+
+Tahap 4: Mitigasi Bypass (SMEP/SMAP/CFI)
+Saatnya menembus proteksi hardware dan kontrol alur.
+Opsi A (Data-Only Path): Melewati CFI sama sekali dengan teknik Dirty Cred atau Cred Overwrite. Ini yang paling populer karena tidak memicu proteksi eksekusi kode.
+Opsi B (Control Flow Path): Menggunakan Dirty Pagetable untuk mematikan bit NX/US pada PTE. Ini secara otomatis membypass SMEP dan SMAP karena halaman memori kini dianggap sebagai memori kernel yang sah dan eksekusi diperbolehkan.
+
+Tahap 5: Privilege Escalation & Cleanup
+Langkah terakhir untuk menjadi Root.
+Teknik Utama: Mencari struct task_struct milik proses saat ini, lalu menimpa struct cred (UID/GID) menjadi 0.
+Cleanup: Jika menggunakan Shadow Stack, lakukan Signal Context Manipulation agar saat syscall selesai, sistem tidak crash karena perbedaan state register.
+
+=================================================================================================================================================
+
+
+catatan : 
+- Control Flow Integrity (CFI)	Memastikan alur eksekusi program sesuai dengan grafik fungsi yang seharusnya.	Indirect Branch Hijacking (mencegah lompatan eksekusi ke lokasi ilegal).
+- FORTIFY_SOURCE	Mendeteksi buffer overflow pada fungsi string/memori umum (seperti memcpy).	Penyalahgunaan fungsi manipulasi memori.
+- KMALLOC_REDZONE	Menambahkan area "terlarang" di sekitar alokasi memori di heap.	Heap Overflow.
+- Vmap-stack (Virtually Mapped Stacks) : CONFIG_VMAP_STACK, stack dialokasikan di memori virtual dengan Guard Pages (halaman memori yang tidak dipetakan) di antara setiap stack.
+
+=================================================================================================================================================
+
+
+PROTEKSI PADA TEKNIK EKSPLOITASI USERSPACE DI LINUX 64 BIT DAN CARA BYPASS
+
+1. ASLR
+- Information Leak (leak via format string)
+- Information Leak (leak via out-of-bounds read)
+- Base libc per-page brute force ( hanya berlaku pada daemon yang menggunakan fork(),tanpa systemd limit rate dan memiliki handler sigchild)
+- ret2plt (tidak berlaku jika full relro)
+- ret2csu (tidak berlaku pada kernel setelah glibc 2.34 (kernel 5.x) -> agustus 2021)
+
+2. PIE (Position Independent Executable)
+- Partial Overwrite
+- Leaking Code Address (perlu bug tambahan,misal format string)
+- vDSO attacks (hanya jika ada information leak)
+- byte by byte brute force ( hanya berlaku pada daemon yang menggunakan fork(), ada handler sigchild, tanpa systemd limit rate)
+- side channel attack (butuh akses ke sistem)
+
+3. DEP / NX (Data Execution Prevention / No-Execute)
+- ROP 
+- ret2libc
+- JOP
+- SROP
+
+4. Stack Canaries (Stack Smashing Protector - SSP)
+- Canary Leaking
+- Arbitrary Write
+- byte by byte brute force ( hanya berlaku pada daemon yang menggunakan fork(),tanpa systemd limit rate)
+- Master Canary Overwrite (berlaku pada daemon dengan multithreading) -> penyerang menimpa nilai master canary yang disimpan di TLS (Thread Local Storage)
+
+5. RELRO (Relocation Read-Only)
+FULL RELRO :
+- Hooking function pointers lain
+PARTIAL RELRO :
+- GOT Overwrite
+
+6. CET (Control-flow Enforcement Technology)
+- Data-only attacks
+- Non-control-data attacks
+
+7. Seccomp
+- Cari syscal yang ga kena filter
+
+8. Fortify Source
+- integer overflow
+
+
+=================================================================================================================================================
+
+
+Teknik Exploitasi Userspace Heap di Linux
+
+1. House of Apple
+manipulasi pointer di dalam struktur _IO_FILE ( _wide_data) untuk mengarahkan eksekusi ke fungsi virtual yang dikontrol penyerang saat fungsi I/O seperti fopen, fclose, atau printf dipanggil.Mengambil alih Control Flow tanpa harus memicu malloc atau free secara langsung.
+2. House of Tangerine
+mengubah ukuran Top Chunk menjadi nilai yang sangat kecil. Ketika ada permintaan alokasi yang lebih besar dari ukuran tersebut, glibc akan memicu sysmalloc.penyerang dapat memaksa Top Chunk lama masuk ke dalam unsorted bin, yang kemudian memungkinkan terjadinya overlapping chunks atau kebocoran alamat memori
+3. Tcache Poisoning
+Menulis ulang pointer next (forward pointer) pada chunk yang berada di dalam tcache bin yang sudah di-free.Mengembalikan alamat memori arbitrer (seperti __environ atau alamat fungsi di stack) pada panggilan malloc berikutnya
+4. Tcache Stashing (Unlink Attack)
+Memanfaatkan mekanisme glibc di mana jika tcache kosong namun terdapat chunk di Small Bin dengan ukuran yang sama, glibc akan memindahkan ("stashing") sisa chunk dari Small Bin ke Tcache.memicu kondisi di mana mereka bisa memanipulasi pointer bk (backward) pada Small Bin. Saat proses stashing terjadi, glibc akan melakukan operasi unlink yang menuliskan alamat tertentu ke lokasi yang dikontrol penyerang.
+
+=================================================================================================================================================
+
+
+privilege escalation tool
+
+https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh 
+
+https://raw.githubusercontent.com/mzet-/linux-exploit-suggester/master/linux-exploit-suggester.sh
+
+
+
+
